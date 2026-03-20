@@ -69,6 +69,7 @@ export default function StartPage() {
     if (!background || !goal) return;
     setLoading(true);
     setApiError(null);
+    sessionStorage.clear();
     try {
       const res = await fetch("/api/generate-plan", {
         method: "POST",
