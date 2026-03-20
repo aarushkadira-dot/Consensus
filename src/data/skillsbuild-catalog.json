@@ -1,19 +1,103 @@
-[
-  { "name": "Data Analysis Fundamentals", "hours": 12, "skills_covered": ["Data Analytics", "Data Visualization", "Statistical Analysis"], "badge": "IBM Data Fundamentals", "url": "https://skillsbuild.org/adult-learners/explore-learning/data-fundamentals" },
-  { "name": "SQL for Business", "hours": 10, "skills_covered": ["SQL", "Database Querying", "Data Retrieval"], "badge": "IBM SQL Essentials", "url": "https://skillsbuild.org/adult-learners/explore-learning" },
-  { "name": "Python for Data Science", "hours": 15, "skills_covered": ["Python Basics", "Data Manipulation", "Pandas"], "badge": "IBM Python for Data Science", "url": "https://skillsbuild.org/adult-learners/explore-learning" },
-  { "name": "Product Management Essentials", "hours": 8, "skills_covered": ["Product Metrics", "Product Strategy", "Roadmapping"], "badge": "IBM Product Foundations", "url": "https://skillsbuild.org/adult-learners/explore-learning" },
-  { "name": "Agile Methodology", "hours": 6, "skills_covered": ["Agile", "Scrum", "Sprint Planning"], "badge": "IBM Agile Explorer", "url": "https://skillsbuild.org/adult-learners/explore-learning" },
-  { "name": "Project Management Fundamentals", "hours": 10, "skills_covered": ["Project Management", "Risk Management", "Scheduling"], "badge": "IBM Project Management", "url": "https://skillsbuild.org/adult-learners/explore-learning" },
-  { "name": "Artificial Intelligence Fundamentals", "hours": 10, "skills_covered": ["AI Basics", "Machine Learning Concepts", "AI Ethics"], "badge": "IBM AI Fundamentals", "url": "https://skillsbuild.org/adult-learners/explore-learning/artificial-intelligence" },
-  { "name": "Cybersecurity Fundamentals", "hours": 8, "skills_covered": ["Cybersecurity", "Network Security", "Threat Analysis"], "badge": "IBM Cybersecurity Fundamentals", "url": "https://skillsbuild.org/adult-learners/explore-learning/cybersecurity" },
-  { "name": "Cloud Computing Fundamentals", "hours": 10, "skills_covered": ["Cloud Computing", "Cloud Architecture", "IaaS/PaaS/SaaS"], "badge": "IBM Cloud Fundamentals", "url": "https://skillsbuild.org/adult-learners/explore-learning" },
-  { "name": "Web Development Fundamentals", "hours": 14, "skills_covered": ["HTML", "CSS", "JavaScript Basics"], "badge": "IBM Web Development", "url": "https://skillsbuild.org/adult-learners/explore-learning" },
-  { "name": "UX Design Fundamentals", "hours": 8, "skills_covered": ["UX Design", "User Research", "Wireframing"], "badge": "IBM UX Design", "url": "https://skillsbuild.org/adult-learners/explore-learning" },
-  { "name": "Digital Marketing Fundamentals", "hours": 10, "skills_covered": ["Digital Marketing", "SEO", "Content Strategy"], "badge": "IBM Digital Marketing", "url": "https://skillsbuild.org/adult-learners/explore-learning" },
-  { "name": "Business Analysis Fundamentals", "hours": 12, "skills_covered": ["Business Analysis", "Requirements Gathering", "Process Modeling"], "badge": "IBM Business Analysis", "url": "https://skillsbuild.org/adult-learners/explore-learning" },
-  { "name": "Design Thinking Practitioner", "hours": 6, "skills_covered": ["Design Thinking", "Innovation", "Problem Solving"], "badge": "IBM Design Thinking Practitioner", "url": "https://skillsbuild.org/adult-learners/explore-learning" },
-  { "name": "Data Science Foundations", "hours": 16, "skills_covered": ["Data Science", "Machine Learning", "Data Wrangling"], "badge": "IBM Data Science Foundations", "url": "https://skillsbuild.org/adult-learners/explore-learning" },
-  { "name": "Professional Skills", "hours": 8, "skills_covered": ["Communication", "Collaboration", "Critical Thinking"], "badge": "IBM Professional Skills", "url": "https://skillsbuild.org/adult-learners/explore-learning" },
-  { "name": "A/B Testing and Experimentation", "hours": 6, "skills_covered": ["A/B Testing", "Experimentation", "Statistical Significance"], "badge": "IBM Experimentation", "url": "https://skillsbuild.org/adult-learners/explore-learning" }
-]
+{
+  "paths": [
+    {
+      "name": "Artificial Intelligence",
+      "url": "https://skillsbuild.org/adult-learners/explore-learning/artificial-intelligence",
+      "courses": [
+        { "name": "Artificial Intelligence Fundamentals", "hours": 10, "badge": "IBM AI Fundamentals", "skills": ["AI concepts", "machine learning", "neural networks", "AI ethics"] },
+        { "name": "Getting Started with AI and Prompt Engineering", "hours": 8, "badge": "IBM Prompt Engineering", "skills": ["prompt engineering", "generative AI", "AI tools"] }
+      ]
+    },
+    {
+      "name": "Cybersecurity",
+      "url": "https://skillsbuild.org/adult-learners/explore-learning/cybersecurity-analyst",
+      "courses": [
+        { "name": "Cybersecurity Fundamentals", "hours": 12, "badge": "IBM Cybersecurity Fundamentals", "skills": ["network security", "threat analysis", "security principles", "incident response"] },
+        { "name": "Security Analyst Fundamentals", "hours": 8, "badge": "IBM Security Analyst", "skills": ["SIEM", "security operations", "vulnerability assessment"] }
+      ]
+    },
+    {
+      "name": "Data Analytics",
+      "url": "https://skillsbuild.org/adult-learners/explore-learning/data-analyst",
+      "courses": [
+        { "name": "Data Fundamentals", "hours": 12, "badge": "IBM Data Fundamentals", "skills": ["data analysis", "data visualization", "data types", "databases"] },
+        { "name": "SQL and Relational Databases", "hours": 10, "badge": "IBM SQL Essentials", "skills": ["SQL", "database queries", "relational databases", "data manipulation"] },
+        { "name": "Data Visualization with Python", "hours": 8, "badge": null, "skills": ["Python", "matplotlib", "data visualization", "pandas"] }
+      ]
+    },
+    {
+      "name": "Information Technology",
+      "url": "https://skillsbuild.org/adult-learners/explore-learning/it-support-technician",
+      "courses": [
+        { "name": "IT Support Fundamentals", "hours": 10, "badge": "IBM IT Support", "skills": ["IT support", "troubleshooting", "operating systems", "hardware"] },
+        { "name": "Cloud Computing Fundamentals", "hours": 8, "badge": "IBM Cloud Fundamentals", "skills": ["cloud computing", "IaaS", "PaaS", "SaaS", "AWS", "Azure"] },
+        { "name": "Networking Basics", "hours": 6, "badge": null, "skills": ["networking", "TCP/IP", "DNS", "firewalls"] }
+      ]
+    },
+    {
+      "name": "IT Project Management",
+      "url": "https://skillsbuild.org/adult-learners/explore-learning/project-manager",
+      "courses": [
+        { "name": "Project Management Fundamentals", "hours": 10, "badge": "IBM Project Management", "skills": ["project management", "planning", "risk management", "budgeting"] },
+        { "name": "Agile Methodology", "hours": 6, "badge": "IBM Agile Explorer", "skills": ["agile", "scrum", "sprint planning", "kanban"] }
+      ]
+    },
+    {
+      "name": "User Experience Design",
+      "url": "https://skillsbuild.org/adult-learners/explore-learning/user-experience-design",
+      "courses": [
+        { "name": "UX Design Fundamentals", "hours": 10, "badge": "IBM UX Design", "skills": ["UX design", "user research", "wireframing", "prototyping", "usability testing"] },
+        { "name": "Design Thinking Practitioner", "hours": 6, "badge": "IBM Design Thinking Practitioner", "skills": ["design thinking", "empathy mapping", "ideation", "user-centered design"] }
+      ]
+    },
+    {
+      "name": "Web Development",
+      "url": "https://skillsbuild.org/adult-learners/explore-learning/web-developer",
+      "courses": [
+        { "name": "Web Development Fundamentals", "hours": 12, "badge": "IBM Web Development", "skills": ["HTML", "CSS", "JavaScript", "responsive design", "web accessibility"] },
+        { "name": "Developing Cloud Apps with Node.js", "hours": 8, "badge": null, "skills": ["Node.js", "Express", "REST APIs", "cloud deployment"] },
+        { "name": "Front-End Development with React", "hours": 10, "badge": null, "skills": ["React", "component architecture", "state management", "JSX"] }
+      ]
+    },
+    {
+      "name": "Customer Service",
+      "url": "https://skillsbuild.org/adult-learners/explore-learning/customer-service-representative",
+      "courses": [
+        { "name": "Customer Engagement Specialist", "hours": 8, "badge": "IBM Customer Engagement", "skills": ["customer service", "communication", "problem resolution", "CRM"] }
+      ]
+    },
+    {
+      "name": "Workforce Readiness",
+      "url": "https://skillsbuild.org/adult-learners/explore-learning/workforce-readiness",
+      "courses": [
+        { "name": "Job Application Essentials", "hours": 4, "badge": null, "skills": ["resume writing", "cover letters", "interview preparation", "job search"] },
+        { "name": "Working in a Digital World: Professional Skills", "hours": 8, "badge": "IBM Professional Skills", "skills": ["digital literacy", "collaboration", "remote work", "productivity"] },
+        { "name": "People and Soft Skills for Professional Success", "hours": 6, "badge": null, "skills": ["communication", "teamwork", "leadership", "emotional intelligence"] }
+      ]
+    },
+    {
+      "name": "Cloud Computing",
+      "url": "https://skillsbuild.org/college-students/course-catalog",
+      "courses": [
+        { "name": "Introduction to Cloud Computing", "hours": 8, "badge": "IBM Cloud Essentials", "skills": ["cloud computing", "virtualization", "cloud architecture", "cloud deployment models"] },
+        { "name": "Getting Started with Enterprise Data Science", "hours": 10, "badge": null, "skills": ["data science", "enterprise analytics", "statistical modeling"] }
+      ]
+    },
+    {
+      "name": "Sustainability",
+      "url": "https://skillsbuild.org/adult-learners/explore-learning/sustainability",
+      "courses": [
+        { "name": "Sustainability and Green Technology", "hours": 6, "badge": null, "skills": ["sustainability", "ESG reporting", "green technology", "carbon footprint"] },
+        { "name": "Introduction to Environmental Social Governance", "hours": 4, "badge": null, "skills": ["ESG", "corporate responsibility", "sustainable business"] }
+      ]
+    },
+    {
+      "name": "Technology Skills",
+      "url": "https://skillsbuild.org/adult-learners/explore-learning/technology-skills",
+      "courses": [
+        { "name": "Exploring Emerging Technologies", "hours": 8, "badge": "IBM Emerging Tech", "skills": ["blockchain", "IoT", "quantum computing", "5G"] },
+        { "name": "Introduction to Containers and Kubernetes", "hours": 6, "badge": null, "skills": ["Docker", "Kubernetes", "containerization", "DevOps"] }
+      ]
+    }
+  ]
+}

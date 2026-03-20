@@ -196,7 +196,11 @@ Include 3 role directions ranked by reachability. If a stepping-stone role is mo
 }
 
 function learningPlannerPrompt(goalContext: string, skillGaps: string, roles: string): string {
-  const catalogJSON = JSON.stringify(skillsbuildCatalog);
+  // Flatten paths → courses into a single array for the prompt
+  const allCourses = skillsbuildCatalog.paths.flatMap((path: any) =>
+    path.courses.map((c: any) => ({ ...c, path: path.name, path_url: path.url }))
+  );
+  const catalogJSON = JSON.stringify(allCourses);
 
   return `${ANTI_HALLUCINATION}
 
