@@ -346,6 +346,7 @@ function ConfidenceCircle({ confidence }: { confidence: number }) {
         fontWeight="600"
         fill={T.text2}
         fontFamily="JetBrains Mono, monospace"
+        transform="rotate(90, 16, 16)"
         style={{ pointerEvents: "none" }}
       >
         {Math.round(confidence * 100)}%
