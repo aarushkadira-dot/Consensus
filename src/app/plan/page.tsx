@@ -281,28 +281,36 @@ export default function PlanPage() {
       >
         {[
           {
-            value: finalPlan?.skills?.existing?.length ?? 18,
+            value: finalPlan
+              ? (finalPlan.skills?.existing?.length || 0) + (finalPlan.skills?.gaps?.length || 0)
+              : "—",
             label: "Skills identified",
-            sub: `${finalPlan?.skills?.existing?.length ?? 7} strong · ${finalPlan?.skills?.gaps?.length ?? 5} gaps`,
+            sub: finalPlan
+              ? `${finalPlan.skills?.existing?.length || 0} strong · ${finalPlan.skills?.gaps?.length || 0} gaps`
+              : "loading...",
           },
           {
-            value: finalPlan?.roles?.directions?.[0]?.skill_overlap_pct
+            value: finalPlan?.roles?.directions?.[0]?.skill_overlap_pct != null
               ? `${finalPlan.roles.directions[0].skill_overlap_pct}%`
-              : "74%",
+              : "—",
             label: "Top role match",
-            sub: finalPlan?.roles?.directions?.[0]?.role_title || "Business Analyst",
+            sub: finalPlan?.roles?.directions?.[0]?.role_title || "—",
           },
           {
-            value: finalPlan?.learning_path?.phase_1?.total_hours
+            value: finalPlan?.learning_path?.phase_1?.total_hours != null
               ? `${finalPlan.learning_path.phase_1.total_hours} hrs`
-              : "22 hrs",
+              : "—",
             label: "Upskill time",
-            sub: `${finalPlan?.learning_path?.phase_1?.courses?.length ?? 2} Consensus courses`,
+            sub: finalPlan
+              ? `${finalPlan.learning_path?.phase_1?.courses?.length || 0} Consensus courses`
+              : "—",
           },
           {
-            value: "+$17K",
-            label: "Salary impact",
-            sub: "after Phase 1 transition",
+            value: finalPlan?.roles?.salary_impact?.after_transition || "—",
+            label: "Phase 1 salary",
+            sub: finalPlan?.roles?.salary_impact?.current_estimated
+              ? `from ${finalPlan.roles.salary_impact.current_estimated}`
+              : "after transition",
           },
         ].map((stat, idx) => (
           <div
