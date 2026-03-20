@@ -8,25 +8,25 @@ const T = {
   bg: "#08090C",
   surface: "#0F1114",
   elevated: "#141416",
-  border: "rgba(255,255,255,0.07)",
-  borderMid: "rgba(255,255,255,0.13)",
+  border: "rgba(255,255,255,0.09)",
+  borderMid: "rgba(255,255,255,0.18)",
   text1: "#EDEBE6",
-  text2: "#8A8780",
-  text3: "#48463F",
-  agentName: "#6B6A65",
-  green: "#17A877",
-  greenDim: "rgba(23,168,119,0.12)",
-  greenBorder: "rgba(23,168,119,0.28)",
-  blue: "#3B82F6",
-  blueDim: "rgba(59,130,246,0.1)",
-  amber: "#F59E0B",
-  amberDim: "rgba(245,158,11,0.1)",
-  coral: "#EF4444",
-  coralDim: "rgba(239,68,68,0.08)",
-  indigo: "#6366F1",
-  indigoDim: "rgba(99,102,241,0.1)",
-  lineDim: "#2A2A2E",
-  lineActive: "#3A3A3E",
+  text2: "#A8A49E",
+  text3: "#6B6963",
+  agentName: "#B0ADA7",
+  green: "#1EC98E",
+  greenDim: "rgba(30,201,142,0.13)",
+  greenBorder: "rgba(30,201,142,0.35)",
+  blue: "#60A5FA",
+  blueDim: "rgba(96,165,250,0.13)",
+  amber: "#FBBF24",
+  amberDim: "rgba(251,191,36,0.13)",
+  coral: "#F87171",
+  coralDim: "rgba(248,113,113,0.12)",
+  indigo: "#818CF8",
+  indigoDim: "rgba(129,140,248,0.13)",
+  lineDim: "#323238",
+  lineActive: "#4A4A52",
 };
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
@@ -34,26 +34,26 @@ const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 const AGENTS = {
   skill_analyst: {
     label: "Skill Analyst",
-    border: "#134E4A",
-    glow: "rgba(45,212,160,0.12)",
+    border: "#2DD4A0",
+    glow: "rgba(45,212,160,0.22)",
     initial: "S",
   },
   market_scout: {
     label: "Market Scout",
-    border: "#64748B",
-    glow: "rgba(71,85,105,0.22)",
+    border: "#60A5FA",
+    glow: "rgba(96,165,250,0.22)",
     initial: "M",
   },
   learning_planner: {
     label: "Learning Planner",
-    border: "#78716C",
-    glow: "rgba(120,113,108,0.22)",
+    border: "#FBBF24",
+    glow: "rgba(251,191,36,0.22)",
     initial: "L",
   },
   career_strategist: {
     label: "Career Strategist",
-    border: "#6B7280",
-    glow: "rgba(107,114,128,0.22)",
+    border: "#C084FC",
+    glow: "rgba(192,132,252,0.22)",
     initial: "C",
   },
 };
@@ -328,11 +328,11 @@ function ConfidenceCircle({ confidence }: { confidence: number }) {
       viewBox="0 0 32 32"
       style={{ transform: "rotate(-90deg)" }}
     >
-      <circle cx="16" cy="16" r="12" fill="none" stroke={T.border} strokeWidth="2" />
+      <circle cx="16" cy="16" r="12" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="2" />
       <motion.circle
         cx="16" cy="16" r="12"
         fill="none"
-        stroke={T.text3}
+        stroke={T.green}
         strokeWidth="2"
         strokeDasharray={circumference}
         initial={{ strokeDashoffset: circumference }}
@@ -344,7 +344,7 @@ function ConfidenceCircle({ confidence }: { confidence: number }) {
         textAnchor="middle"
         fontSize="10"
         fontWeight="600"
-        fill={T.text3}
+        fill={T.text2}
         fontFamily="JetBrains Mono, monospace"
         style={{ pointerEvents: "none" }}
       >
@@ -432,11 +432,11 @@ export default function AgentsPage() {
       display: "inline-block",
     };
     if (type === "proposes")
-      return <span style={{ ...base, background: T.surface, border: `1px solid ${T.border}`, color: T.text3 }}>Proposes</span>;
+      return <span style={{ ...base, background: "rgba(255,255,255,0.05)", border: `1px solid rgba(255,255,255,0.15)`, color: T.text2 }}>Proposes</span>;
     if (type === "challenges")
-      return <span style={{ ...base, background: T.coralDim, border: `1px solid rgba(239,68,68,0.3)`, color: "#A1675C" }}>Challenges → {challenges ? AGENTS[challenges]?.label : ""}</span>;
+      return <span style={{ ...base, background: T.coralDim, border: `1px solid rgba(248,113,113,0.4)`, color: "#F87171" }}>Challenges → {challenges ? AGENTS[challenges]?.label : ""}</span>;
     if (type === "builds")
-      return <span style={{ ...base, background: T.blueDim, border: `1px solid rgba(59,130,246,0.2)`, color: "#5B7FA6" }}>Builds on</span>;
+      return <span style={{ ...base, background: T.blueDim, border: `1px solid rgba(96,165,250,0.35)`, color: "#60A5FA" }}>Builds on</span>;
     if (type === "consensus")
       return <span style={{ ...base, background: T.greenDim, border: `1px solid ${T.greenBorder}`, color: T.green }}>✓ Consensus</span>;
   };

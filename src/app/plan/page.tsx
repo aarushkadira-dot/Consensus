@@ -4,6 +4,43 @@ import { useState, useEffect, useRef } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import jobListings from "@/data/job-listings.json";
+import skillsbuildCatalog from "@/data/skillsbuild-catalog.json";
+
+function getSkillsBuildUrl(skillName: string, courseName?: string): string {
+  const lower = skillName.toLowerCase();
+  const lowerCourse = (courseName || "").toLowerCase();
+
+  for (const path of skillsbuildCatalog.paths) {
+    // Match by course name first (most specific)
+    if (lowerCourse) {
+      for (const course of path.courses) {
+        const cLower = course.name.toLowerCase();
+        if (cLower.includes(lowerCourse.split(" ")[0]) || lowerCourse.includes(cLower.split(" ")[0])) {
+          return path.url;
+        }
+      }
+    }
+  }
+
+  for (const path of skillsbuildCatalog.paths) {
+    // Match by path name
+    const pLower = path.name.toLowerCase();
+    if (pLower.includes(lower.split(" ")[0]) || lower.includes(pLower.split(" ")[0])) {
+      return path.url;
+    }
+    // Match by individual skill tags inside courses
+    for (const course of path.courses) {
+      if (course.skills.some(s => {
+        const sl = s.toLowerCase();
+        return sl.includes(lower) || lower.includes(sl);
+      })) {
+        return path.url;
+      }
+    }
+  }
+
+  return "https://skillsbuild.org/adult-learners/explore-learning";
+}
 
 const T = {
   bg: "#08090C",
@@ -446,38 +483,62 @@ export default function PlanPage() {
                     { skill: "Python Basics", course: "Python for Data Science", hrs: "15hrs" },
                     { skill: "Product Metrics", course: "Product Management Essentials", hrs: "8hrs" },
                   ]).map((gap: { skill: string; course: string; hrs: string }) => (
-                    <div
+                    <a
                       key={gap.skill}
-                      style={{
-                        background: T.surface,
-                        border: `1px solid ${T.border}`,
-                        borderRadius: "6px",
-                        padding: "12px 14px",
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                      }}
+                      href={getSkillsBuildUrl(gap.skill, gap.course)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ textDecoration: "none", display: "block" }}
                     >
-                      <div>
-                        <div style={{ fontSize: "13px", fontWeight: "600", color: T.text1 }}>{gap.skill}</div>
-                        <div style={{ fontSize: "12px", color: T.text3, marginTop: "2px" }}>
-                          IBM SkillsBuild: {gap.course}
-                        </div>
-                      </div>
-                      <span
+                      <div
                         style={{
-                          background: T.amberDim,
-                          border: `1px solid ${T.amber}`,
-                          color: T.amber,
-                          fontSize: "11px",
-                          fontWeight: "600",
-                          padding: "4px 8px",
-                          borderRadius: "3px",
+                          background: T.surface,
+                          border: `1px solid ${T.border}`,
+                          borderRadius: "6px",
+                          padding: "12px 14px",
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          cursor: "pointer",
+                          transition: "border-color 0.15s, background 0.15s",
+                        }}
+                        onMouseEnter={e => {
+                          (e.currentTarget as HTMLElement).style.borderColor = T.borderMid;
+                          (e.currentTarget as HTMLElement).style.background = T.elevated;
+                        }}
+                        onMouseLeave={e => {
+                          (e.currentTarget as HTMLElement).style.borderColor = T.border;
+                          (e.currentTarget as HTMLElement).style.background = T.surface;
                         }}
                       >
-                        {gap.hrs}
-                      </span>
-                    </div>
+                        <div>
+                          <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                            <div style={{ fontSize: "13px", fontWeight: "600", color: T.text1 }}>{gap.skill}</div>
+                            {/* External link icon */}
+                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style={{ opacity: 0.4 }}>
+                              <path d="M5.5 1H9v3.5M9 1 4.5 5.5M2 3H1v6h6V8" stroke="#EDEBE6" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                          </div>
+                          <div style={{ fontSize: "12px", color: T.text3, marginTop: "2px" }}>
+                            IBM SkillsBuild: {gap.course}
+                          </div>
+                        </div>
+                        <span
+                          style={{
+                            background: T.amberDim,
+                            border: `1px solid ${T.amber}`,
+                            color: T.amber,
+                            fontSize: "11px",
+                            fontWeight: "600",
+                            padding: "4px 8px",
+                            borderRadius: "3px",
+                            flexShrink: 0,
+                          }}
+                        >
+                          {gap.hrs}
+                        </span>
+                      </div>
+                    </a>
                   ))}
                 </div>
               </div>
