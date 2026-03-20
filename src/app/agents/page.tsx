@@ -7,12 +7,13 @@ import Link from "next/link";
 const T = {
   bg: "#08090C",
   surface: "#0F1114",
-  elevated: "#161820",
+  elevated: "#141416",
   border: "rgba(255,255,255,0.07)",
   borderMid: "rgba(255,255,255,0.13)",
   text1: "#EDEBE6",
   text2: "#8A8780",
   text3: "#48463F",
+  agentName: "#6B6A65",
   green: "#17A877",
   greenDim: "rgba(23,168,119,0.12)",
   greenBorder: "rgba(23,168,119,0.28)",
@@ -24,16 +25,223 @@ const T = {
   coralDim: "rgba(239,68,68,0.08)",
   indigo: "#6366F1",
   indigoDim: "rgba(99,102,241,0.1)",
+  lineDim: "#2A2A2E",
+  lineActive: "#3A3A3E",
 };
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 const AGENTS = {
-  skill_analyst: { label: "Skill Analyst", color: "#17A877", initial: "S" },
-  market_scout: { label: "Market Scout", color: "#3B82F6", initial: "M" },
-  learning_planner: { label: "Learning Planner", color: "#F59E0B", initial: "L" },
-  career_strategist: { label: "Career Strategist", color: "#EF4444", initial: "C" },
+  skill_analyst: {
+    label: "Skill Analyst",
+    border: "#134E4A",
+    glow: "rgba(45,212,160,0.12)",
+    initial: "S",
+  },
+  market_scout: {
+    label: "Market Scout",
+    border: "#64748B",
+    glow: "rgba(71,85,105,0.22)",
+    initial: "M",
+  },
+  learning_planner: {
+    label: "Learning Planner",
+    border: "#78716C",
+    glow: "rgba(120,113,108,0.22)",
+    initial: "L",
+  },
+  career_strategist: {
+    label: "Career Strategist",
+    border: "#6B7280",
+    glow: "rgba(107,114,128,0.22)",
+    initial: "C",
+  },
 };
+
+// SVG icon paths rendered as SVG elements, centered at (cx, cy)
+function AgentIconInSVG({
+  agentKey,
+  cx,
+  cy,
+  color,
+}: {
+  agentKey: string;
+  cx: number;
+  cy: number;
+  color: string;
+}) {
+  if (agentKey === "skill_analyst") {
+    return (
+      <g>
+        <circle cx={cx - 1.5} cy={cy - 2} r={4.5} stroke={color} strokeWidth={1.2} fill="none" />
+        <line
+          x1={cx + 1.8} y1={cy + 1.5}
+          x2={cx + 5.5} y2={cy + 5.5}
+          stroke={color} strokeWidth={1.5} strokeLinecap="round"
+        />
+      </g>
+    );
+  }
+  if (agentKey === "market_scout") {
+    return (
+      <g>
+        <rect x={cx - 5.5} y={cy + 0.5} width={2.5} height={4.5} rx={0.3} fill={color} />
+        <rect x={cx - 1.5} y={cy - 2.5} width={2.5} height={7.5} rx={0.3} fill={color} />
+        <rect x={cx + 2.5} y={cy - 5.5} width={2.5} height={10.5} rx={0.3} fill={color} />
+      </g>
+    );
+  }
+  if (agentKey === "learning_planner") {
+    return (
+      <g>
+        <path
+          d={`M ${cx} ${cy - 5} C ${cx} ${cy - 5} ${cx - 5.5} ${cy - 6} ${cx - 5.5} ${cy + 3} C ${cx - 5.5} ${cy + 3} ${cx} ${cy + 2} ${cx} ${cy + 5}`}
+          stroke={color} strokeWidth={1.2} fill="none"
+        />
+        <path
+          d={`M ${cx} ${cy - 5} C ${cx} ${cy - 5} ${cx + 5.5} ${cy - 6} ${cx + 5.5} ${cy + 3} C ${cx + 5.5} ${cy + 3} ${cx} ${cy + 2} ${cx} ${cy + 5}`}
+          stroke={color} strokeWidth={1.2} fill="none"
+        />
+        <line x1={cx} y1={cy - 5} x2={cx} y2={cy + 5} stroke={color} strokeWidth={0.8} strokeOpacity={0.6} />
+      </g>
+    );
+  }
+  if (agentKey === "career_strategist") {
+    return (
+      <g>
+        <rect x={cx - 5} y={cy - 6} width={10} height={12} rx={1} stroke={color} strokeWidth={1.2} fill="none" />
+        <line x1={cx - 3} y1={cy - 2} x2={cx + 3} y2={cy - 2} stroke={color} strokeWidth={1} strokeLinecap="round" />
+        <line x1={cx - 3} y1={cy + 1} x2={cx + 3} y2={cy + 1} stroke={color} strokeWidth={1} strokeLinecap="round" />
+        <line x1={cx - 3} y1={cy + 4} x2={cx + 1} y2={cy + 4} stroke={color} strokeWidth={1} strokeLinecap="round" />
+      </g>
+    );
+  }
+  return null;
+}
+
+// Small circular avatar for message cards
+function AgentAvatar({ agentKey }: { agentKey: string }) {
+  const agent = AGENTS[agentKey as keyof typeof AGENTS] || AGENTS.skill_analyst;
+  const S = 28;
+  const cx = S / 2;
+  const cy = S / 2;
+  return (
+    <svg width={S} height={S} viewBox={`0 0 ${S} ${S}`} fill="none" style={{ flexShrink: 0 }}>
+      <circle cx={cx} cy={cy} r={12} fill={T.elevated} stroke={agent.border} strokeWidth={0.8} />
+      <AgentIconInSVG agentKey={agentKey} cx={cx} cy={cy} color={agent.border} />
+    </svg>
+  );
+}
+
+// Network visualization: 4 circles in 2×2 grid with dashed connecting lines
+function AgentNetwork({
+  statuses,
+}: {
+  statuses: Record<string, "posted" | "thinking" | "pending">;
+}) {
+  type AgentKey = keyof typeof AGENTS;
+
+  const W = 168;
+  const H = 152;
+  const R = 17;
+
+  const pos: Record<AgentKey, { x: number; y: number }> = {
+    skill_analyst:    { x: 36,  y: 38  },
+    market_scout:     { x: 132, y: 38  },
+    learning_planner: { x: 36,  y: 108 },
+    career_strategist:{ x: 132, y: 108 },
+  };
+
+  const edges: [AgentKey, AgentKey][] = [
+    ["skill_analyst",    "market_scout"],
+    ["skill_analyst",    "learning_planner"],
+    ["market_scout",     "career_strategist"],
+    ["learning_planner", "career_strategist"],
+    ["skill_analyst",    "career_strategist"],
+    ["market_scout",     "learning_planner"],
+  ];
+
+  return (
+    <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} overflow="visible">
+      {/* Dashed connecting lines */}
+      {edges.map(([a, b]) => {
+        const pa = pos[a];
+        const pb = pos[b];
+        const isActive =
+          statuses[a] !== "pending" || statuses[b] !== "pending";
+        return (
+          <line
+            key={`${a}-${b}`}
+            x1={pa.x} y1={pa.y}
+            x2={pb.x} y2={pb.y}
+            stroke={isActive ? T.lineActive : T.lineDim}
+            strokeWidth={0.8}
+            strokeDasharray="3 5"
+          />
+        );
+      })}
+
+      {/* Agent nodes */}
+      {(Object.keys(AGENTS) as AgentKey[]).map((key) => {
+        const agent = AGENTS[key];
+        const p = pos[key];
+        const status = statuses[key];
+        const isThinking = status === "thinking";
+        const isPosted = status === "posted";
+
+        return (
+          <g key={key}>
+            {/* Soft glow ring behind circle when thinking */}
+            {isThinking && (
+              <motion.circle
+                cx={p.x} cy={p.y} r={R + 8}
+                fill={agent.glow}
+                initial={{ opacity: 0.3 }}
+                animate={{ opacity: [0.3, 0.8, 0.3] }}
+                transition={{ duration: 2.5, repeat: Infinity }}
+              />
+            )}
+
+            {/* Main circle with animated border */}
+            <motion.circle
+              cx={p.x} cy={p.y} r={R}
+              fill={T.elevated}
+              stroke={agent.border}
+              strokeWidth={isThinking ? 1.2 : 0.8}
+              animate={
+                isThinking
+                  ? { strokeOpacity: [0.4, 1, 0.4] }
+                  : { strokeOpacity: isPosted ? 0.75 : 0.35 }
+              }
+              transition={{ duration: 2.5, repeat: isThinking ? Infinity : 0 }}
+            />
+
+            {/* Icon */}
+            <AgentIconInSVG agentKey={key} cx={p.x} cy={p.y} color={agent.border} />
+          </g>
+        );
+      })}
+
+      {/* Labels below each circle */}
+      {(Object.keys(AGENTS) as AgentKey[]).map((key) => {
+        const agent = AGENTS[key];
+        const p = pos[key];
+        return (
+          <text
+            key={`lbl-${key}`}
+            x={p.x} y={p.y + R + 10}
+            textAnchor="middle"
+            fill={T.agentName}
+            fontSize={7.5}
+            fontFamily="JetBrains Mono, monospace"
+          >
+            {agent.label}
+          </text>
+        );
+      })}
+    </svg>
+  );
+}
 
 interface Message {
   id: number;
@@ -113,7 +321,6 @@ const MESSAGES: Message[] = [
 
 function ConfidenceCircle({ confidence }: { confidence: number }) {
   const circumference = 2 * Math.PI * 12;
-
   return (
     <motion.svg
       width="32"
@@ -121,20 +328,11 @@ function ConfidenceCircle({ confidence }: { confidence: number }) {
       viewBox="0 0 32 32"
       style={{ transform: "rotate(-90deg)" }}
     >
-      <circle
-        cx="16"
-        cy="16"
-        r="12"
-        fill="none"
-        stroke={T.border}
-        strokeWidth="2"
-      />
+      <circle cx="16" cy="16" r="12" fill="none" stroke={T.border} strokeWidth="2" />
       <motion.circle
-        cx="16"
-        cy="16"
-        r="12"
+        cx="16" cy="16" r="12"
         fill="none"
-        stroke={T.green}
+        stroke={T.text3}
         strokeWidth="2"
         strokeDasharray={circumference}
         initial={{ strokeDashoffset: circumference }}
@@ -142,12 +340,11 @@ function ConfidenceCircle({ confidence }: { confidence: number }) {
         transition={{ duration: 0.6, ease: "easeOut" }}
       />
       <text
-        x="16"
-        y="18"
+        x="16" y="18"
         textAnchor="middle"
         fontSize="10"
         fontWeight="600"
-        fill={T.text1}
+        fill={T.text3}
         fontFamily="JetBrains Mono, monospace"
         style={{ pointerEvents: "none" }}
       >
@@ -157,7 +354,6 @@ function ConfidenceCircle({ confidence }: { confidence: number }) {
   );
 }
 
-// Map API response types to UI types
 function mapApiMessages(apiMessages: any[]): Message[] {
   const typeMap: Record<string, Message["type"]> = {
     proposal: "proposes",
@@ -187,8 +383,6 @@ export default function AgentsPage() {
   useEffect(() => {
     const goal = sessionStorage.getItem("sb_goal") || "Your career transition goal";
     setUserGoal(goal);
-
-    // Load API messages from sessionStorage if available
     const raw = sessionStorage.getItem("agent_messages");
     if (raw) {
       try {
@@ -197,7 +391,7 @@ export default function AgentsPage() {
           setMessages(mapApiMessages(parsed));
           setVisibleCount(0);
         }
-      } catch (e) {
+      } catch {
         // keep fallback MESSAGES
       }
     }
@@ -205,78 +399,46 @@ export default function AgentsPage() {
 
   useEffect(() => {
     if (visibleCount >= messages.length) {
-      const timer = setTimeout(() => {
-        setDone(true);
-      }, 1000);
+      const timer = setTimeout(() => setDone(true), 1000);
       return () => clearTimeout(timer);
     }
-
     const timer = setTimeout(() => {
       setVisibleCount(visibleCount + 1);
       if (visibleCount + 1 < messages.length) {
         setCurrentRound(messages[visibleCount + 1].round);
       }
     }, 1800);
-
     return () => clearTimeout(timer);
   }, [visibleCount, messages]);
 
   const getAgentStatus = (agentKey: keyof typeof AGENTS): "posted" | "thinking" | "pending" => {
     const agentMessages = messages.filter((m) => m.agent === agentKey);
     const lastAgentMessageId = agentMessages[agentMessages.length - 1]?.id || 0;
-
-    if (!agentMessages.some((m) => m.id <= visibleCount)) {
-      return "pending";
-    }
-    if (lastAgentMessageId <= visibleCount) {
-      return "posted";
-    }
+    if (!agentMessages.some((m) => m.id <= visibleCount)) return "pending";
+    if (lastAgentMessageId <= visibleCount) return "posted";
     return "thinking";
   };
 
-  const statusDotColor = (status: "posted" | "thinking" | "pending") => {
-    if (status === "posted") return T.green;
-    if (status === "thinking") return T.amber;
-    return T.text3;
-  };
+  const agentStatuses = Object.fromEntries(
+    Object.keys(AGENTS).map((k) => [k, getAgentStatus(k as keyof typeof AGENTS)])
+  ) as Record<string, "posted" | "thinking" | "pending">;
 
   const getTypeBadge = (type: string, challenges?: keyof typeof AGENTS | null) => {
-    const baseStyle = {
+    const base = {
       fontSize: "11px",
       fontWeight: "600",
-      padding: "4px 8px",
+      padding: "3px 8px",
       borderRadius: "3px",
       display: "inline-block",
     };
-
-    if (type === "proposes") {
-      return (
-        <span style={{ ...baseStyle, background: T.surface, border: `1px solid ${T.border}`, color: T.text2 }}>
-          Proposes
-        </span>
-      );
-    }
-    if (type === "challenges") {
-      return (
-        <span style={{ ...baseStyle, background: T.coralDim, border: `1px solid ${T.coral}`, color: T.coral }}>
-          Challenges → {challenges ? AGENTS[challenges as keyof typeof AGENTS]?.label : ""}
-        </span>
-      );
-    }
-    if (type === "builds") {
-      return (
-        <span style={{ ...baseStyle, background: T.blueDim, border: `1px solid ${T.blue}`, color: T.blue }}>
-          Builds on
-        </span>
-      );
-    }
-    if (type === "consensus") {
-      return (
-        <span style={{ ...baseStyle, background: T.greenDim, border: `1px solid ${T.greenBorder}`, color: T.green }}>
-          ✓ Consensus
-        </span>
-      );
-    }
+    if (type === "proposes")
+      return <span style={{ ...base, background: T.surface, border: `1px solid ${T.border}`, color: T.text3 }}>Proposes</span>;
+    if (type === "challenges")
+      return <span style={{ ...base, background: T.coralDim, border: `1px solid rgba(239,68,68,0.3)`, color: "#A1675C" }}>Challenges → {challenges ? AGENTS[challenges]?.label : ""}</span>;
+    if (type === "builds")
+      return <span style={{ ...base, background: T.blueDim, border: `1px solid rgba(59,130,246,0.2)`, color: "#5B7FA6" }}>Builds on</span>;
+    if (type === "consensus")
+      return <span style={{ ...base, background: T.greenDim, border: `1px solid ${T.greenBorder}`, color: T.green }}>✓ Consensus</span>;
   };
 
   return (
@@ -294,59 +456,48 @@ export default function AgentsPage() {
           overflowY: "auto",
         }}
       >
+        {/* Goal */}
         <div>
-          <div style={{ fontSize: "11px", textTransform: "uppercase", color: T.text3, marginBottom: "8px" }}>
-            Your session
+          <div style={{ fontSize: "10px", textTransform: "uppercase", color: T.text3, letterSpacing: "0.08em", marginBottom: "8px" }}>
+            Session
           </div>
-          <div style={{ fontSize: "13px", color: T.text2, lineHeight: "1.4", overflow: "hidden", textOverflow: "ellipsis", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}>
+          <div
+            style={{
+              fontSize: "12px",
+              color: T.text3,
+              lineHeight: "1.5",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              display: "-webkit-box",
+              WebkitLineClamp: 3,
+              WebkitBoxOrient: "vertical",
+            }}
+          >
             {userGoal}
           </div>
         </div>
 
         <div style={{ height: "1px", background: T.border }} />
 
+        {/* Agent network visualization */}
         <div>
-          <div style={{ fontSize: "11px", textTransform: "uppercase", color: T.text3, marginBottom: "12px" }}>
-            Agent status
+          <div style={{ fontSize: "10px", textTransform: "uppercase", color: T.text3, letterSpacing: "0.08em", marginBottom: "14px" }}>
+            Agents
           </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-            {Object.entries(AGENTS).map(([key, agent]) => {
-              const status = getAgentStatus(key as keyof typeof AGENTS);
-              const isThinking = status === "thinking";
-              return (
-                <div
-                  key={key}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "8px",
-                  }}
-                >
-                  <motion.div
-                    animate={isThinking ? { opacity: [1, 0.4, 1] } : {}}
-                    transition={{ duration: 1.5, repeat: isThinking ? Infinity : 0 }}
-                    style={{
-                      width: "8px",
-                      height: "8px",
-                      borderRadius: "50%",
-                      background: statusDotColor(status),
-                    }}
-                  />
-                  <span style={{ fontSize: "13px", color: T.text2 }}>{agent.label}</span>
-                </div>
-              );
-            })}
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <AgentNetwork statuses={agentStatuses} />
           </div>
         </div>
 
         <div style={{ height: "1px", background: T.border }} />
 
+        {/* Rounds */}
         <div>
-          <div style={{ fontSize: "11px", textTransform: "uppercase", color: T.text3, marginBottom: "12px" }}>
+          <div style={{ fontSize: "10px", textTransform: "uppercase", color: T.text3, letterSpacing: "0.08em", marginBottom: "12px" }}>
             Rounds
           </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-            {["1 · Propose", "2 · Challenge", "3 · Consensus"].map((round, idx) => {
+          <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+            {["1 · Propose", "2 · Challenge", "3 · Consensus"].map((label, idx) => {
               const roundNum = idx + 1;
               const isActive = currentRound === roundNum;
               const isCompleted = currentRound > roundNum;
@@ -356,14 +507,15 @@ export default function AgentsPage() {
                   style={{
                     padding: "6px 10px",
                     borderRadius: "4px",
-                    background: isActive ? T.greenDim : isCompleted ? T.surface : T.surface,
+                    background: isActive ? T.greenDim : T.surface,
                     border: `1px solid ${isActive ? T.greenBorder : T.border}`,
-                    fontSize: "12px",
-                    color: isActive ? T.green : isCompleted ? T.text3 : T.text2,
+                    fontSize: "11px",
+                    fontFamily: "JetBrains Mono, monospace",
+                    color: isActive ? T.green : isCompleted ? T.text3 : T.agentName,
                     fontWeight: isActive ? "600" : "400",
                   }}
                 >
-                  {round}
+                  {label}
                 </div>
               );
             })}
@@ -376,43 +528,39 @@ export default function AgentsPage() {
         {/* TOP STATUS BAR */}
         <div
           style={{
-            position: "sticky",
-            top: 0,
             background: T.bg,
             borderBottom: `1px solid ${T.border}`,
             padding: "16px 28px",
             height: "56px",
-            zIndex: 10,
             display: "flex",
-            flexDirection: "row",
             alignItems: "center",
             justifyContent: "space-between",
           }}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <motion.div
-              animate={done ? { background: T.green } : { background: T.amber, opacity: [1, 0.4, 1] }}
-              transition={{ duration: 1.5, repeat: done ? 0 : Infinity }}
-              style={{
-                width: "8px",
-                height: "8px",
-                borderRadius: "50%",
-              }}
+              animate={
+                done
+                  ? { background: T.green }
+                  : { background: T.text3, opacity: [1, 0.3, 1] }
+              }
+              transition={{ duration: 1.8, repeat: done ? 0 : Infinity }}
+              style={{ width: "6px", height: "6px", borderRadius: "50%" }}
             />
-            <span style={{ color: T.text1, fontSize: "14px", fontWeight: "500" }}>
-              {done ? "Consensus reached" : "Agents are collaborating"}
+            <span style={{ color: done ? T.text2 : T.text3, fontSize: "13px", fontFamily: "JetBrains Mono, monospace" }}>
+              {done ? "consensus reached" : "agents collaborating..."}
             </span>
           </div>
           {done && (
             <Link href="/plan">
               <button
                 style={{
-                  padding: "8px 16px",
+                  padding: "7px 14px",
                   background: T.green,
                   color: T.bg,
                   border: "none",
                   borderRadius: "4px",
-                  fontSize: "13px",
+                  fontSize: "12px",
                   fontWeight: "600",
                   cursor: "pointer",
                 }}
@@ -423,7 +571,7 @@ export default function AgentsPage() {
           )}
         </div>
 
-        {/* FEED AREA */}
+        {/* FEED */}
         <div
           style={{
             flex: 1,
@@ -431,7 +579,7 @@ export default function AgentsPage() {
             padding: "28px",
             display: "flex",
             flexDirection: "column",
-            gap: "14px",
+            gap: "12px",
           }}
         >
           <AnimatePresence mode="wait">
@@ -447,31 +595,39 @@ export default function AgentsPage() {
                         display: "flex",
                         alignItems: "center",
                         gap: "12px",
-                        marginBottom: "20px",
-                        marginTop: "20px",
+                        margin: "18px 0",
                       }}
                     >
-                      <div style={{ flex: 1, height: "1px", background: T.border }} />
-                      <span style={{ fontSize: "11px", color: T.text3, fontWeight: "600", textTransform: "uppercase" }}>
+                      <div style={{ flex: 1, height: "1px", background: T.lineDim }} />
+                      <span
+                        style={{
+                          fontSize: "10px",
+                          color: T.text3,
+                          fontWeight: "600",
+                          textTransform: "uppercase",
+                          letterSpacing: "0.1em",
+                          fontFamily: "JetBrains Mono, monospace",
+                        }}
+                      >
                         Round {message.round}
                         {message.round === 1 && " — Propose"}
                         {message.round === 2 && " — Challenge"}
                         {message.round === 3 && " — Consensus"}
                       </span>
-                      <div style={{ flex: 1, height: "1px", background: T.border }} />
+                      <div style={{ flex: 1, height: "1px", background: T.lineDim }} />
                     </div>
                   )}
 
                   <motion.div
-                    initial={{ x: -16, opacity: 0 }}
+                    initial={{ x: -12, opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
                     transition={{ duration: 0.4, ease: EASE }}
                     style={{
                       background: T.surface,
                       border: `1px solid ${T.border}`,
-                      borderLeft: `3px solid ${agent.color}`,
-                      borderRadius: "8px",
-                      padding: "18px 20px",
+                      borderLeft: `2px solid ${agent.border}`,
+                      borderRadius: "6px",
+                      padding: "16px 20px",
                     }}
                   >
                     {/* Header */}
@@ -479,27 +635,12 @@ export default function AgentsPage() {
                       style={{
                         display: "flex",
                         alignItems: "center",
-                        gap: "12px",
-                        marginBottom: "12px",
+                        gap: "10px",
+                        marginBottom: "10px",
                       }}
                     >
-                      <div
-                        style={{
-                          width: "28px",
-                          height: "28px",
-                          borderRadius: "50%",
-                          background: agent.color,
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          fontSize: "12px",
-                          fontWeight: "700",
-                          color: T.bg,
-                        }}
-                      >
-                        {agent.initial}
-                      </div>
-                      <span style={{ color: agent.color, fontWeight: "600", fontSize: "13px" }}>
+                      <AgentAvatar agentKey={message.agent} />
+                      <span style={{ color: T.agentName, fontWeight: "500", fontSize: "12px", fontFamily: "JetBrains Mono, monospace" }}>
                         {agent.label}
                       </span>
                       {getTypeBadge(message.type, message.challenges)}
@@ -507,14 +648,8 @@ export default function AgentsPage() {
                       <ConfidenceCircle confidence={message.confidence} />
                     </div>
 
-                    {/* Message body */}
-                    <div
-                      style={{
-                        fontSize: "14px",
-                        color: T.text2,
-                        lineHeight: "1.75",
-                      }}
-                    >
+                    {/* Body */}
+                    <div style={{ fontSize: "13px", color: T.text2, lineHeight: "1.75" }}>
                       {message.text}
                     </div>
                   </motion.div>
@@ -525,16 +660,13 @@ export default function AgentsPage() {
 
           {done && (
             <motion.div
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              style={{
-                marginTop: "20px",
-                textAlign: "center",
-              }}
+              style={{ marginTop: "16px", textAlign: "center" }}
             >
-              <p style={{ fontSize: "16px", color: T.green, fontWeight: "600", marginBottom: "12px" }}>
-                Your career plan is ready
+              <p style={{ fontSize: "13px", color: T.green, fontWeight: "600", marginBottom: "12px", fontFamily: "JetBrains Mono, monospace" }}>
+                // plan ready
               </p>
               <Link href="/plan">
                 <button
@@ -543,8 +675,8 @@ export default function AgentsPage() {
                     background: T.green,
                     color: T.bg,
                     border: "none",
-                    borderRadius: "6px",
-                    fontSize: "14px",
+                    borderRadius: "5px",
+                    fontSize: "13px",
                     fontWeight: "600",
                     cursor: "pointer",
                   }}
