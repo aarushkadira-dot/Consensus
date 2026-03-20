@@ -64,29 +64,29 @@ const PARTICLES = Array.from({ length: 38 }, (_, i) => ({
 
 function PipeArrow() {
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "3px 0" }}>
-      <div style={{ width: 1, height: 18, background: "#2E2F33" }} />
-      <div style={{ width: 0, height: 0, borderLeft: "4px solid transparent", borderRight: "4px solid transparent", borderTop: "6px solid #2E2F33" }} />
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "2px 0" }}>
+      <div style={{ width: 1, height: 14, background: "#2E2F33" }} />
+      <div style={{ width: 0, height: 0, borderLeft: "3px solid transparent", borderRight: "3px solid transparent", borderTop: "5px solid #2E2F33" }} />
     </div>
   );
 }
 
 function PipeArrowLabeled({ label }: { label: string }) {
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "2px 0" }}>
-      <div style={{ width: 1, height: 10, background: "#2E2F33" }} />
-      <div style={{ fontSize: 9, color: T.text3, fontFamily: "JetBrains Mono, monospace", margin: "3px 0", textAlign: "center" }}>{label}</div>
-      <div style={{ width: 1, height: 10, background: "#2E2F33" }} />
-      <div style={{ width: 0, height: 0, borderLeft: "4px solid transparent", borderRight: "4px solid transparent", borderTop: "6px solid #2E2F33" }} />
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "1px 0" }}>
+      <div style={{ width: 1, height: 8, background: "#2E2F33" }} />
+      <div style={{ fontSize: 8, color: T.text3, fontFamily: "JetBrains Mono, monospace", margin: "2px 0", textAlign: "center" }}>{label}</div>
+      <div style={{ width: 1, height: 8, background: "#2E2F33" }} />
+      <div style={{ width: 0, height: 0, borderLeft: "3px solid transparent", borderRight: "3px solid transparent", borderTop: "5px solid #2E2F33" }} />
     </div>
   );
 }
 
 function PipeStepLabel({ label }: { label: string }) {
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 8, margin: "10px 0 8px" }}>
+    <div style={{ display: "flex", alignItems: "center", gap: 6, margin: "8px 0 6px" }}>
       <div style={{ flex: 1, borderTop: "1px dashed #2A2A2E" }} />
-      <div style={{ fontSize: 9, color: "#3A3A3E", fontFamily: "JetBrains Mono, monospace", border: "1px solid #2A2A2E", borderRadius: 4, padding: "2px 6px" }}>{label}</div>
+      <div style={{ fontSize: 8, color: "#3A3A3E", fontFamily: "JetBrains Mono, monospace", border: "1px solid #2A2A2E", borderRadius: 3, padding: "1px 5px" }}>{label}</div>
       <div style={{ flex: 1, borderTop: "1px dashed #2A2A2E" }} />
     </div>
   );
@@ -94,9 +94,9 @@ function PipeStepLabel({ label }: { label: string }) {
 
 function PipeAgentBox({ label, sub, bg, border, color }: { label: string; sub: string; bg: string; border: string; color: string }) {
   return (
-    <div style={{ flex: 1, background: bg, border: `1px solid ${border}`, borderRadius: 7, padding: "10px 8px", textAlign: "center" }}>
-      <div style={{ fontSize: 11, fontWeight: 600, color }}>{label}</div>
-      <div style={{ fontSize: 9, color, opacity: 0.6, fontFamily: "JetBrains Mono, monospace", marginTop: 2, lineHeight: 1.4 }}>{sub}</div>
+    <div style={{ flex: 1, background: bg, border: `1px solid ${border}`, borderRadius: 6, padding: "8px 6px", textAlign: "center" }}>
+      <div style={{ fontSize: 10, fontWeight: 600, color }}>{label}</div>
+      <div style={{ fontSize: 8, color, opacity: 0.6, fontFamily: "JetBrains Mono, monospace", marginTop: 1, lineHeight: 1.3 }}>{sub}</div>
     </div>
   );
 }
@@ -106,55 +106,55 @@ function PipelineDiagram() {
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "100%" }}>
 
       {/* User Input */}
-      <div style={{ width: "100%", background: "#1C1D20", border: "1px solid #2E2F33", borderRadius: 8, padding: "11px 16px", textAlign: "center" }}>
-        <div style={{ fontSize: 13, fontWeight: 600, color: T.text1 }}>User input</div>
-        <div style={{ fontSize: 10, color: T.text3, fontFamily: "JetBrains Mono, monospace", marginTop: 3 }}>"Background" + "Goal"</div>
+      <div style={{ width: "100%", background: "#1C1D20", border: "1px solid #2E2F33", borderRadius: 6, padding: "9px 12px", textAlign: "center" }}>
+        <div style={{ fontSize: 12, fontWeight: 600, color: T.text1 }}>User input</div>
+        <div style={{ fontSize: 9, color: T.text3, fontFamily: "JetBrains Mono, monospace", marginTop: 2 }}>"Background" + "Goal"</div>
       </div>
 
       <PipeArrow />
 
       {/* Goal Interpreter */}
-      <div style={{ width: "100%", background: "#1E1D40", border: "1px solid #3B38A0", borderRadius: 8, padding: "11px 16px", textAlign: "center" }}>
-        <div style={{ fontSize: 13, fontWeight: 600, color: "#C5C2F8" }}>Goal Interpreter</div>
-        <div style={{ fontSize: 10, color: "#7C79C4", fontFamily: "JetBrains Mono, monospace", marginTop: 3 }}>Classifies intent · structures context</div>
+      <div style={{ width: "100%", background: "#1E1D40", border: "1px solid #3B38A0", borderRadius: 6, padding: "9px 12px", textAlign: "center" }}>
+        <div style={{ fontSize: 12, fontWeight: 600, color: "#C5C2F8" }}>Goal Interpreter</div>
+        <div style={{ fontSize: 9, color: "#7C79C4", fontFamily: "JetBrains Mono, monospace", marginTop: 2 }}>Classifies intent · structures context</div>
       </div>
 
       <PipeArrowLabeled label="Broadcasts to all agents" />
 
       {/* Collaboration zone */}
-      <div style={{ width: "100%", border: "1px dashed #2A2A2E", borderRadius: 10, padding: "14px 14px 16px", position: "relative" }}>
-        <div style={{ position: "absolute", top: -9, left: "50%", transform: "translateX(-50%)", background: T.bg, padding: "0 8px", fontSize: 9, color: T.text3, fontFamily: "JetBrains Mono, monospace", whiteSpace: "nowrap" }}>
+      <div style={{ width: "100%", border: "1px dashed #2A2A2E", borderRadius: 8, padding: "12px 12px 14px", position: "relative" }}>
+        <div style={{ position: "absolute", top: -8, left: "50%", transform: "translateX(-50%)", background: T.bg, padding: "0 6px", fontSize: 8, color: T.text3, fontFamily: "JetBrains Mono, monospace", whiteSpace: "nowrap" }}>
           propose / challenge / build
         </div>
 
         <PipeStepLabel label="step 2 — parallel" />
-        <div style={{ display: "flex", gap: 8 }}>
+        <div style={{ display: "flex", gap: 6 }}>
           <PipeAgentBox label="Skill Analyst"  sub="Maps skills · scores gaps" bg="#0D1E1C" border="#2DD4A0" color="#2DD4A0" />
           <PipeAgentBox label="Market Scout"   sub="Target roles · salaries"   bg="#141820" border="#60A5FA" color="#60A5FA" />
         </div>
 
         <PipeStepLabel label="step 3 — parallel" />
-        <div style={{ display: "flex", gap: 8 }}>
+        <div style={{ display: "flex", gap: 6 }}>
           <PipeAgentBox label="Learning Planner"  sub="Sequences courses"      bg="#1A1714" border="#FBBF24" color="#FBBF24" />
           <PipeAgentBox label="Career Strategist" sub="Resume · cover letter"  bg="#161618" border="#C084FC" color="#C084FC" />
         </div>
 
-        <div style={{ display: "flex", justifyContent: "center", margin: "8px 0" }}>
+        <div style={{ display: "flex", justifyContent: "center", margin: "6px 0" }}>
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-            <div style={{ width: 1, height: 14, background: "#2A2A2E" }} />
+            <div style={{ width: 1, height: 10, background: "#2A2A2E" }} />
             <div style={{ width: 0, height: 0, borderLeft: "3px solid transparent", borderRight: "3px solid transparent", borderTop: "5px solid #2A2A2E" }} />
           </div>
         </div>
 
         {/* Consensus checkpoint */}
         <div style={{ position: "relative" }}>
-          <div style={{ background: "#1E1D40", border: "1px solid #3B38A0", borderRadius: 20, padding: "10px 16px", textAlign: "center" }}>
-            <div style={{ fontSize: 12, fontWeight: 600, color: "#C5C2F8" }}>Consensus checkpoint</div>
-            <div style={{ fontSize: 9, color: "#7C79C4", fontFamily: "JetBrains Mono, monospace", marginTop: 2 }}>Agents vote · fallback flag if mock data</div>
+          <div style={{ background: "#1E1D40", border: "1px solid #3B38A0", borderRadius: 16, padding: "8px 12px", textAlign: "center" }}>
+            <div style={{ fontSize: 11, fontWeight: 600, color: "#C5C2F8" }}>Consensus checkpoint</div>
+            <div style={{ fontSize: 8, color: "#7C79C4", fontFamily: "JetBrains Mono, monospace", marginTop: 1 }}>Agents vote · fallback flag</div>
           </div>
-          <div style={{ position: "absolute", right: -96, top: "50%", transform: "translateY(-50%)", fontSize: 9, color: T.text3, fontFamily: "JetBrains Mono, monospace", display: "flex", alignItems: "center", gap: 4, whiteSpace: "nowrap" }}>
-            <div style={{ width: 28, borderTop: "1px dashed #2A2A2E" }} />
-            Dispute → new round
+          <div style={{ position: "absolute", right: -80, top: "50%", transform: "translateY(-50%)", fontSize: 8, color: T.text3, fontFamily: "JetBrains Mono, monospace", display: "flex", alignItems: "center", gap: 3, whiteSpace: "nowrap" }}>
+            <div style={{ width: 20, borderTop: "1px dashed #2A2A2E" }} />
+            Dispute
           </div>
         </div>
       </div>
@@ -162,23 +162,23 @@ function PipelineDiagram() {
       <PipeArrowLabeled label="Consensus reached" />
 
       {/* Plan Assembler */}
-      <div style={{ width: "100%", background: "#1C1D20", border: "1px solid #2E2F33", borderRadius: 8, padding: "11px 16px", textAlign: "center" }}>
-        <div style={{ fontSize: 13, fontWeight: 600, color: T.text1 }}>Plan Assembler</div>
-        <div style={{ fontSize: 10, color: T.text3, fontFamily: "JetBrains Mono, monospace", marginTop: 3 }}>Merges outputs → final_plan JSON</div>
+      <div style={{ width: "100%", background: "#1C1D20", border: "1px solid #2E2F33", borderRadius: 6, padding: "9px 12px", textAlign: "center" }}>
+        <div style={{ fontSize: 12, fontWeight: 600, color: T.text1 }}>Plan Assembler</div>
+        <div style={{ fontSize: 9, color: T.text3, fontFamily: "JetBrains Mono, monospace", marginTop: 2 }}>Merges outputs → final_plan JSON</div>
       </div>
 
       <PipeArrow />
 
       {/* Consensus Dashboard */}
-      <div style={{ width: "100%", background: "rgba(23,168,119,0.08)", border: "1px solid rgba(23,168,119,0.28)", borderRadius: 8, padding: "11px 16px", textAlign: "center" }}>
-        <div style={{ fontSize: 13, fontWeight: 600, color: T.green }}>Consensus Dashboard</div>
-        <div style={{ fontSize: 10, color: "rgba(23,168,119,0.5)", fontFamily: "JetBrains Mono, monospace", marginTop: 3 }}>Skills · Roles · Action Plan · Jobs</div>
+      <div style={{ width: "100%", background: "rgba(23,168,119,0.08)", border: "1px solid rgba(23,168,119,0.28)", borderRadius: 6, padding: "9px 12px", textAlign: "center" }}>
+        <div style={{ fontSize: 12, fontWeight: 600, color: T.green }}>Consensus Dashboard</div>
+        <div style={{ fontSize: 9, color: "rgba(23,168,119,0.5)", fontFamily: "JetBrains Mono, monospace", marginTop: 2 }}>Skills · Roles · Action Plan · Jobs</div>
       </div>
 
       {/* Badge */}
-      <div style={{ marginTop: 14, display: "inline-flex", alignItems: "center", gap: 6, background: "#1C1D20", border: "1px solid #2E2F33", borderRadius: 6, padding: "4px 10px", fontSize: 9, fontFamily: "JetBrains Mono, monospace", color: T.text3 }}>
-        <div style={{ width: 6, height: 6, borderRadius: "50%", background: T.green, flexShrink: 0 }} />
-        Powered by IBM watsonx Granite
+      <div style={{ marginTop: 10, display: "inline-flex", alignItems: "center", gap: 5, background: "#1C1D20", border: "1px solid #2E2F33", borderRadius: 5, padding: "3px 8px", fontSize: 8, fontFamily: "JetBrains Mono, monospace", color: T.text3 }}>
+        <div style={{ width: 4, height: 4, borderRadius: "50%", background: T.green, flexShrink: 0 }} />
+        IBM watsonx Granite
       </div>
     </div>
   );
@@ -332,7 +332,7 @@ export default function Landing() {
             </p>
           </FadeUp>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 320px", gap: 56, alignItems: "start" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 280px", gap: 40, alignItems: "start" }}>
             {/* Agent cards */}
             <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 16 }}>
               {[
@@ -349,7 +349,7 @@ export default function Landing() {
                 {
                   label: "Learning Planner", color: T.amber, dim: T.amberDim, border: "rgba(245,158,11,0.28)",
                   icon: <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 16V6L10 3L16 6V16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M10 3V16M4 10H16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>,
-                  desc: "Builds your shortest path to job-ready. Sequences courses to close skill gaps in the fewest hours, in the right order.",
+                  desc: "Builds your shortest path to job-ready. Sequences courses to close skill gaps in the fewest hours.",
                 },
                 {
                   label: "Career Strategist", color: T.coral, dim: T.coralDim, border: "rgba(239,68,68,0.28)",
@@ -377,8 +377,8 @@ export default function Landing() {
 
             {/* Pipeline diagram */}
             <FadeUp delay={0.2}>
-              <div style={{ position: "sticky", top: 80 }}>
-                <div style={{ fontSize: 10, color: T.text3, fontFamily: "JetBrains Mono, monospace", marginBottom: 14, textAlign: "center", textTransform: "uppercase", letterSpacing: "0.08em" }}>
+              <div style={{ position: "sticky", top: 120 }}>
+                <div style={{ fontSize: 9, color: T.text3, fontFamily: "JetBrains Mono, monospace", marginBottom: 12, textAlign: "center", textTransform: "uppercase", letterSpacing: "0.1em" }}>
                   Agent pipeline
                 </div>
                 <PipelineDiagram />
