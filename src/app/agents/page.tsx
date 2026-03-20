@@ -157,7 +157,27 @@ function ConfidenceCircle({ confidence }: { confidence: number }) {
   );
 }
 
+// Map API response types to UI types
+function mapApiMessages(apiMessages: any[]): Message[] {
+  const typeMap: Record<string, Message["type"]> = {
+    proposal: "proposes",
+    challenge: "challenges",
+    build: "builds",
+    consensus: "consensus",
+  };
+  return apiMessages.map((m, idx) => ({
+    id: idx + 1,
+    agent: m.agent as keyof typeof AGENTS,
+    round: m.round,
+    type: (typeMap[m.type] || "proposes") as Message["type"],
+    confidence: m.confidence,
+    challenges: (m.challenges as keyof typeof AGENTS) || null,
+    text: m.message,
+  }));
+}
+
 export default function AgentsPage() {
+  const [messages, setMessages] = useState<Message[]>(MESSAGES);
   const [visibleCount, setVisibleCount] = useState(0);
   const [currentRound, setCurrentRound] = useState(1);
   const [done, setDone] = useState(false);
@@ -167,10 +187,24 @@ export default function AgentsPage() {
   useEffect(() => {
     const goal = sessionStorage.getItem("sb_goal") || "Your career transition goal";
     setUserGoal(goal);
+
+    // Load API messages from sessionStorage if available
+    const raw = sessionStorage.getItem("agent_messages");
+    if (raw) {
+      try {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setMessages(mapApiMessages(parsed));
+          setVisibleCount(0);
+        }
+      } catch (e) {
+        // keep fallback MESSAGES
+      }
+    }
   }, []);
 
   useEffect(() => {
-    if (visibleCount >= MESSAGES.length) {
+    if (visibleCount >= messages.length) {
       const timer = setTimeout(() => {
         setDone(true);
       }, 1000);
@@ -179,16 +213,16 @@ export default function AgentsPage() {
 
     const timer = setTimeout(() => {
       setVisibleCount(visibleCount + 1);
-      if (visibleCount + 1 < MESSAGES.length) {
-        setCurrentRound(MESSAGES[visibleCount + 1].round);
+      if (visibleCount + 1 < messages.length) {
+        setCurrentRound(messages[visibleCount + 1].round);
       }
     }, 1800);
 
     return () => clearTimeout(timer);
-  }, [visibleCount]);
+  }, [visibleCount, messages]);
 
   const getAgentStatus = (agentKey: keyof typeof AGENTS): "posted" | "thinking" | "pending" => {
-    const agentMessages = MESSAGES.filter((m) => m.agent === agentKey);
+    const agentMessages = messages.filter((m) => m.agent === agentKey);
     const lastAgentMessageId = agentMessages[agentMessages.length - 1]?.id || 0;
 
     if (!agentMessages.some((m) => m.id <= visibleCount)) {
@@ -401,9 +435,9 @@ export default function AgentsPage() {
           }}
         >
           <AnimatePresence mode="wait">
-            {MESSAGES.slice(0, visibleCount).map((message, idx) => {
+            {messages.slice(0, visibleCount).map((message, idx) => {
               const agent = AGENTS[message.agent];
-              const showRoundDivider = idx === 0 || MESSAGES[idx - 1]?.round !== message.round;
+              const showRoundDivider = idx === 0 || messages[idx - 1]?.round !== message.round;
 
               return (
                 <div key={message.id}>

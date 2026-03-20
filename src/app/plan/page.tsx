@@ -26,8 +26,6 @@ const T = {
   indigoDim: "rgba(99,102,241,0.1)",
 };
 
-const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
-
 function CountUpStat({ target }: { target: number }) {
   const [count, setCount] = useState(0);
   const ref = useRef(null);
@@ -59,6 +57,21 @@ function CountUpStat({ target }: { target: number }) {
 
 export default function PlanPage() {
   const [activeTab, setActiveTab] = useState("overview");
+  const [finalPlan, setFinalPlan] = useState<any>(null);
+  const [userGoal, setUserGoal] = useState("");
+
+  useEffect(() => {
+    const raw = sessionStorage.getItem("final_plan");
+    if (raw) {
+      try {
+        setFinalPlan(JSON.parse(raw));
+      } catch (e) {
+        // keep null — hardcoded fallbacks below handle it
+      }
+    }
+    const goal = sessionStorage.getItem("user_goal") || "";
+    setUserGoal(goal);
+  }, []);
 
   return (
     <div style={{ background: T.bg, minHeight: "100vh" }}>
@@ -100,8 +113,8 @@ export default function PlanPage() {
           </span>
         </div>
 
-        <div style={{ fontSize: "13px", color: T.text2 }}>
-          Marketing Manager → Product Management
+        <div style={{ fontSize: "13px", color: T.text2, maxWidth: "320px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+          {userGoal ? (userGoal.length > 60 ? userGoal.slice(0, 60) + "…" : userGoal) : "Marketing Manager → Product Management"}
         </div>
 
         <div style={{ display: "flex", gap: "12px" }}>
@@ -167,8 +180,7 @@ export default function PlanPage() {
               Agents reached consensus.
             </div>
             <div style={{ fontSize: "13px", color: T.text2, lineHeight: "1.6" }}>
-              Start with Business Analyst roles (74% skill overlap, 22 hours of upskilling). After 6–12 months of BA
-              experience, transition to Product Manager with additional credentials.
+              {finalPlan?.consensus_summary || "Start with Business Analyst roles (74% skill overlap, 22 hours of upskilling). After 6–12 months of BA experience, transition to Product Manager with additional credentials."}
             </div>
           </div>
         </div>
@@ -188,19 +200,23 @@ export default function PlanPage() {
       >
         {[
           {
-            value: 18,
+            value: finalPlan?.skills?.existing?.length ?? 18,
             label: "Skills identified",
-            sub: "7 strong · 5 gaps",
+            sub: `${finalPlan?.skills?.existing?.length ?? 7} strong · ${finalPlan?.skills?.gaps?.length ?? 5} gaps`,
           },
           {
-            value: "74%",
+            value: finalPlan?.roles?.directions?.[0]?.skill_overlap_pct
+              ? `${finalPlan.roles.directions[0].skill_overlap_pct}%`
+              : "74%",
             label: "Top role match",
-            sub: "Business Analyst",
+            sub: finalPlan?.roles?.directions?.[0]?.role_title || "Business Analyst",
           },
           {
-            value: "22 hrs",
+            value: finalPlan?.learning_path?.phase_1?.total_hours
+              ? `${finalPlan.learning_path.phase_1.total_hours} hrs`
+              : "22 hrs",
             label: "Upskill time",
-            sub: "2 SkillsBuild courses",
+            sub: `${finalPlan?.learning_path?.phase_1?.courses?.length ?? 2} SkillsBuild courses`,
           },
           {
             value: "+$17K",
@@ -375,7 +391,7 @@ export default function PlanPage() {
                   Your strengths
                 </h2>
                 <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-                  {[
+                  {(finalPlan?.skills?.existing?.map((s: any) => ({ name: s.name, pct: s.level })) || [
                     { name: "Project Coordination", pct: 90 },
                     { name: "Client Communication", pct: 88 },
                     { name: "Team Leadership", pct: 85 },
@@ -383,7 +399,7 @@ export default function PlanPage() {
                     { name: "Salesforce CRM", pct: 78 },
                     { name: "Stakeholder Mgmt", pct: 80 },
                     { name: "Strategic Planning", pct: 70 },
-                  ].map((skill) => (
+                  ]).map((skill: { name: string; pct: number }) => (
                     <div key={skill.name}>
                       <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "6px" }}>
                         <span style={{ fontSize: "13px", color: T.text1 }}>{skill.name}</span>
@@ -418,12 +434,16 @@ export default function PlanPage() {
                   Gaps to close
                 </h2>
                 <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                  {[
+                  {(finalPlan?.skills?.gaps?.map((g: any) => ({
+                    skill: g.name,
+                    course: g.course || "See IBM SkillsBuild",
+                    hrs: g.hours ? `${g.hours}hrs` : "—",
+                  })) || [
                     { skill: "SQL", course: "SQL for Business", hrs: "10hrs" },
                     { skill: "Data Analytics", course: "Data Analysis Fundamentals", hrs: "12hrs" },
                     { skill: "Python Basics", course: "Python for Data Science", hrs: "15hrs" },
                     { skill: "Product Metrics", course: "Product Management Essentials", hrs: "8hrs" },
-                  ].map((gap) => (
+                  ]).map((gap: { skill: string; course: string; hrs: string }) => (
                     <div
                       key={gap.skill}
                       style={{
@@ -466,7 +486,16 @@ export default function PlanPage() {
         {activeTab === "target-roles" && (
           <div style={{ paddingTop: "32px" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: "16px", marginBottom: "40px" }}>
-              {[
+              {(finalPlan?.roles?.directions?.map((d: any, idx: number) => ({
+                title: d.role_title,
+                phase: idx < 2 ? "Phase 1" : "Phase 2",
+                badge: idx === 0 ? "Recommended" : idx === 2 ? `After ${finalPlan?.roles?.directions?.[0]?.role_title || "Phase 1"} experience` : "",
+                salary: d.typical_salary_range,
+                overlap: `${d.skill_overlap_pct}% overlap`,
+                gap: d.gap_skills?.length ? `${d.gap_skills.length} skill gaps` : "",
+                color: idx < 2 ? T.green : T.indigo,
+                body: d.why_reachable,
+              })) || [
                 {
                   title: "Business Analyst",
                   phase: "Phase 1",
@@ -497,7 +526,7 @@ export default function PlanPage() {
                   color: T.indigo,
                   body: "Highest ceiling. Requires Phase 1 credentials and 6–12 months of BA experience for credible candidacy.",
                 },
-              ].map((role) => (
+              ]).map((role: any) => (
                 <div
                   key={role.title}
                   style={{
@@ -561,7 +590,9 @@ export default function PlanPage() {
               >
                 <div style={{ textAlign: "center", flex: "0 0 auto" }}>
                   <div style={{ fontSize: "13px", fontWeight: "600", color: T.text1 }}>Now</div>
-                  <div style={{ fontSize: "16px", fontWeight: "700", color: T.text3, marginTop: "4px" }}>~$68K</div>
+                  <div style={{ fontSize: "16px", fontWeight: "700", color: T.text3, marginTop: "4px" }}>
+                    {finalPlan?.roles?.salary_impact?.current_estimated || "~$68K"}
+                  </div>
                 </div>
 
                 <div
@@ -575,7 +606,9 @@ export default function PlanPage() {
 
                 <div style={{ textAlign: "center", flex: "0 0 auto" }}>
                   <div style={{ fontSize: "13px", fontWeight: "600", color: T.text1 }}>Phase 1</div>
-                  <div style={{ fontSize: "16px", fontWeight: "700", color: T.green, marginTop: "4px" }}>~$85K</div>
+                  <div style={{ fontSize: "16px", fontWeight: "700", color: T.green, marginTop: "4px" }}>
+                    {finalPlan?.roles?.salary_impact?.after_transition || "~$85K"}
+                  </div>
                 </div>
 
                 <div
@@ -589,7 +622,9 @@ export default function PlanPage() {
 
                 <div style={{ textAlign: "center", flex: "0 0 auto" }}>
                   <div style={{ fontSize: "13px", fontWeight: "600", color: T.text1 }}>Phase 2</div>
-                  <div style={{ fontSize: "16px", fontWeight: "700", color: T.indigo, marginTop: "4px" }}>~$115K</div>
+                  <div style={{ fontSize: "16px", fontWeight: "700", color: T.indigo, marginTop: "4px" }}>
+                    {finalPlan?.roles?.salary_impact?.growth_potential_5yr || "~$115K"}
+                  </div>
                 </div>
               </div>
             </div>
@@ -665,6 +700,65 @@ export default function PlanPage() {
                 </div>
               ))}
             </div>
+
+            {/* Resume rewrites from application_kit */}
+            {finalPlan?.application_kit?.resume_rewrites && (
+              <div style={{ marginBottom: "24px" }}>
+                <h3 style={{ fontSize: "15px", fontWeight: "600", color: T.text1, marginBottom: "14px" }}>
+                  Resume rewrites
+                </h3>
+                <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                  {finalPlan.application_kit.resume_rewrites.map((rw: any, idx: number) => (
+                    <div
+                      key={idx}
+                      style={{
+                        background: T.surface,
+                        border: `1px solid ${T.border}`,
+                        borderRadius: "8px",
+                        padding: "16px 20px",
+                      }}
+                    >
+                      <div style={{ fontSize: "12px", color: T.text3, marginBottom: "6px", textTransform: "uppercase", fontWeight: "600" }}>
+                        Before
+                      </div>
+                      <div style={{ fontSize: "13px", color: T.text2, marginBottom: "12px", fontStyle: "italic" }}>
+                        {rw.original}
+                      </div>
+                      <div style={{ fontSize: "12px", color: T.green, marginBottom: "6px", textTransform: "uppercase", fontWeight: "600" }}>
+                        After
+                      </div>
+                      <div style={{ fontSize: "13px", color: T.text1, lineHeight: "1.6" }}>
+                        {rw.rewritten}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Cover letter from application_kit */}
+            {finalPlan?.application_kit?.cover_letter && (
+              <div style={{ marginBottom: "24px" }}>
+                <h3 style={{ fontSize: "15px", fontWeight: "600", color: T.text1, marginBottom: "14px" }}>
+                  Cover letter draft
+                </h3>
+                <div
+                  style={{
+                    background: T.surface,
+                    border: `1px solid ${T.border}`,
+                    borderLeft: `4px solid ${T.blue}`,
+                    borderRadius: "8px",
+                    padding: "20px 24px",
+                    fontSize: "13px",
+                    color: T.text2,
+                    lineHeight: "1.9",
+                    whiteSpace: "pre-wrap",
+                  }}
+                >
+                  {finalPlan.application_kit.cover_letter}
+                </div>
+              </div>
+            )}
 
             <button
               onClick={() => window.print()}

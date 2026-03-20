@@ -27,14 +27,13 @@ const T = {
   indigoDim: "rgba(99,102,241,0.1)",
 };
 
-const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
-
 export default function StartPage() {
   const router = useRouter();
   const [background, setBackground] = useState("");
   const [goal, setGoal] = useState("");
   const [mode, setMode] = useState("transition");
   const [resumeFile, setResumeFile] = useState<File | null>(null);
+  const [loading, setLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const backgroundRef = useRef<HTMLTextAreaElement>(null);
@@ -65,16 +64,27 @@ export default function StartPage() {
     }
   };
 
-  const handleLaunch = () => {
-    const sessionData = {
-      background,
-      goal,
-      mode,
-      resume: resumeFile ? resumeFile.name : null,
-    };
+  const handleLaunch = async () => {
+    if (!background || !goal) return;
+    setLoading(true);
+    try {
+      const res = await fetch("/api/generate-plan", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ background, goal }),
+      });
+      const data = await res.json();
+      sessionStorage.setItem("agent_messages", JSON.stringify(data.agent_messages));
+      sessionStorage.setItem("final_plan", JSON.stringify(data.final_plan));
+    } catch (err) {
+      // API failed — demo still navigates with fallback data
+      console.error("generate-plan failed:", err);
+    }
     sessionStorage.setItem("sb_background", background);
     sessionStorage.setItem("sb_goal", goal);
     sessionStorage.setItem("sb_mode", mode);
+    sessionStorage.setItem("user_background", background);
+    sessionStorage.setItem("user_goal", goal);
     router.push("/agents");
   };
 
@@ -316,8 +326,9 @@ export default function StartPage() {
         {/* Launch button */}
         <motion.button
           onClick={handleLaunch}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
+          disabled={loading}
+          whileHover={loading ? {} : { scale: 1.02 }}
+          whileTap={loading ? {} : { scale: 0.98 }}
           style={{
             width: "100%",
             padding: "14px 20px",
@@ -327,11 +338,12 @@ export default function StartPage() {
             borderRadius: "6px",
             fontSize: "16px",
             fontWeight: "600",
-            cursor: "pointer",
+            cursor: loading ? "not-allowed" : "pointer",
+            opacity: loading ? 0.75 : 1,
             marginBottom: "48px",
           }}
         >
-          Launch agents →
+          {loading ? "Agents launching..." : "Launch agents →"}
         </motion.button>
 
         {/* Privacy notice */}
