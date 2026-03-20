@@ -34,7 +34,7 @@ export default function StartPage() {
   const [mode, setMode] = useState("transition");
   const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
-  const [apiError, setApiError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const backgroundRef = useRef<HTMLTextAreaElement>(null);
@@ -68,7 +68,7 @@ export default function StartPage() {
   const handleLaunch = async () => {
     if (!background || !goal) return;
     setLoading(true);
-    setApiError(null);
+    setError(null);
     sessionStorage.clear();
     try {
       const res = await fetch("/api/generate-plan", {
@@ -78,8 +78,7 @@ export default function StartPage() {
       });
       const data = await res.json();
       if (!res.ok) {
-        // Surface validation errors (e.g. resume too short) to the user
-        setApiError(data.error || "Something went wrong. Please try again.");
+        setError(data.error || "Something went wrong. Please try again.");
         setLoading(false);
         return;
       }
@@ -179,7 +178,7 @@ export default function StartPage() {
             className="w-full"
             rows={6}
             value={background}
-            onChange={(e) => setBackground(e.target.value)}
+            onChange={(e) => { setBackground(e.target.value); setError(null); }}
             placeholder={backgroundPlaceholder}
             style={{
               background: T.surface,
@@ -261,7 +260,7 @@ export default function StartPage() {
             className="w-full"
             rows={3}
             value={goal}
-            onChange={(e) => setGoal(e.target.value)}
+            onChange={(e) => { setGoal(e.target.value); setError(null); }}
             placeholder={goalPlaceholder}
             style={{
               background: T.surface,
@@ -332,22 +331,11 @@ export default function StartPage() {
           ))}
         </div>
 
-        {/* API error */}
-        {apiError && (
-          <div
-            style={{
-              background: "rgba(239,68,68,0.08)",
-              border: "1px solid rgba(239,68,68,0.3)",
-              borderRadius: "6px",
-              padding: "12px 16px",
-              marginBottom: "16px",
-              fontSize: "13px",
-              color: T.coral,
-              lineHeight: "1.5",
-            }}
-          >
-            {apiError}
-          </div>
+        {/* Validation / API error */}
+        {error && (
+          <p style={{ color: "#EF4444", fontSize: "14px", marginBottom: "12px" }}>
+            {error}
+          </p>
         )}
 
         {/* Launch button */}
