@@ -469,14 +469,14 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Both 'background' and 'goal' fields are required" }, { status: 400 });
     }
 
-    // Input validation — require meaningful word counts
-    if (background.trim().split(/\s+/).length < 50) {
+    // Input validation — require meaningful character counts
+    if (background.trim().length < 50) {
       return NextResponse.json(
-        { error: "Please provide more detail about your background. We need at least 50 words describing your experience, skills, and education to build an accurate plan." },
+        { error: "Please provide more detail about your background. We need at least 50 characters describing your experience, skills, and education to build an accurate plan." },
         { status: 400 }
       );
     }
-    if (goal.trim().split(/\s+/).length < 10) {
+    if (goal.trim().length < 10) {
       return NextResponse.json(
         { error: "Please provide more detail about your goal. Tell us specifically what role or career direction you're targeting." },
         { status: 400 }
