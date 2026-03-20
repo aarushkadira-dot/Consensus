@@ -6,39 +6,81 @@ import Link from "next/link";
 import jobListings from "@/data/job-listings.json";
 import skillsbuildCatalog from "@/data/skillsbuild-catalog.json";
 
+// Maps skill keywords → the most relevant IBM SkillsBuild path URL
+const SKILLSBUILD_KEYWORD_MAP: [string[], string][] = [
+  // Data & Analytics
+  [["sql", "database", "data analytics", "data analysis", "data visualization", "pandas", "tableau", "power bi", "excel", "spreadsheet", "reporting"], "https://skillsbuild.org/adult-learners/explore-learning/data-analyst"],
+  // AI & ML
+  [["artificial intelligence", "machine learning", "neural network", "deep learning", "prompt engineering", "generative ai", "nlp", "natural language", "ai ethics", "ai tools"], "https://skillsbuild.org/adult-learners/explore-learning/artificial-intelligence"],
+  // Python / Programming
+  [["python", "javascript", "coding", "programming", "html", "css", "react", "node", "api", "front-end", "frontend", "backend", "web dev", "web development"], "https://skillsbuild.org/adult-learners/explore-learning/web-developer"],
+  // Cloud
+  [["cloud", "aws", "azure", "gcp", "kubernetes", "docker", "devops", "containers", "saas", "iaas", "paas", "serverless"], "https://skillsbuild.org/college-students/course-catalog"],
+  // Cybersecurity
+  [["security", "cybersecurity", "cyber", "siem", "threat", "vulnerability", "incident response", "network security", "firewall"], "https://skillsbuild.org/adult-learners/explore-learning/cybersecurity-analyst"],
+  // Project / Product Management
+  [["product management", "product lifecycle", "product strategy", "roadmap", "go-to-market", "gtm", "product metrics", "kpi", "okr", "product thinking", "product development"], "https://skillsbuild.org/adult-learners/explore-learning/project-manager"],
+  [["project management", "agile", "scrum", "kanban", "sprint", "waterfall", "pmp", "risk management", "stakeholder", "budgeting", "planning"], "https://skillsbuild.org/adult-learners/explore-learning/project-manager"],
+  // UX / Design
+  [["ux", "user experience", "ui design", "wireframe", "prototype", "usability", "user research", "design thinking", "figma", "interaction design", "user-centered"], "https://skillsbuild.org/adult-learners/explore-learning/user-experience-design"],
+  // Customer / Communication
+  [["customer service", "customer success", "client communication", "crm", "salesforce", "customer engagement", "support", "customer relationship"], "https://skillsbuild.org/adult-learners/explore-learning/customer-service-representative"],
+  // Soft skills / Workforce
+  [["communication", "leadership", "teamwork", "emotional intelligence", "collaboration", "resume", "interview", "job search", "soft skills", "professional skills", "digital literacy"], "https://skillsbuild.org/adult-learners/explore-learning/workforce-readiness"],
+  // IT / Networking
+  [["it support", "networking", "tcp", "dns", "hardware", "operating system", "troubleshooting", "helpdesk"], "https://skillsbuild.org/adult-learners/explore-learning/it-support-technician"],
+  // Sustainability
+  [["sustainability", "esg", "green technology", "carbon", "environmental"], "https://skillsbuild.org/adult-learners/explore-learning/sustainability"],
+  // Emerging tech
+  [["blockchain", "iot", "quantum", "5g", "emerging tech"], "https://skillsbuild.org/adult-learners/explore-learning/technology-skills"],
+];
+
+const PLACEHOLDER_PATTERNS = ["see ", "catalog", "skillsbuild catalog", "learning path"];
+
 function getSkillsBuildUrl(skillName: string, courseName?: string): string {
   const lower = skillName.toLowerCase();
   const lowerCourse = (courseName || "").toLowerCase();
 
-  for (const path of skillsbuildCatalog.paths) {
-    // Match by course name first (most specific)
-    if (lowerCourse) {
+  // 1. If we have a real course name (not a placeholder), try exact catalog match
+  const isPlaceholder = PLACEHOLDER_PATTERNS.some(p => lowerCourse.includes(p));
+  if (lowerCourse && !isPlaceholder) {
+    for (const path of skillsbuildCatalog.paths) {
       for (const course of path.courses) {
         const cLower = course.name.toLowerCase();
-        if (cLower.includes(lowerCourse.split(" ")[0]) || lowerCourse.includes(cLower.split(" ")[0])) {
+        // Require at least 4 chars to match to avoid short-word false positives
+        const firstWord = lowerCourse.split(" ")[0];
+        if (firstWord.length >= 4 && (cLower.includes(firstWord) || lowerCourse.includes(cLower.split(" ")[0]))) {
           return path.url;
         }
       }
     }
   }
 
+  // 2. Check catalog path names directly against skill name
   for (const path of skillsbuildCatalog.paths) {
-    // Match by path name
     const pLower = path.name.toLowerCase();
-    if (pLower.includes(lower.split(" ")[0]) || lower.includes(pLower.split(" ")[0])) {
-      return path.url;
-    }
-    // Match by individual skill tags inside courses
+    const skillWords = lower.split(" ").filter(w => w.length >= 4);
+    if (skillWords.some(w => pLower.includes(w))) return path.url;
+  }
+
+  // 3. Check catalog skill tags
+  for (const path of skillsbuildCatalog.paths) {
     for (const course of path.courses) {
       if (course.skills.some(s => {
         const sl = s.toLowerCase();
-        return sl.includes(lower) || lower.includes(sl);
+        return (sl.length >= 4 && lower.includes(sl)) || (lower.length >= 4 && sl.includes(lower));
       })) {
         return path.url;
       }
     }
   }
 
+  // 4. Keyword map — broad coverage for AI-generated skill names
+  for (const [keywords, url] of SKILLSBUILD_KEYWORD_MAP) {
+    if (keywords.some(k => lower.includes(k))) return url;
+  }
+
+  // 5. Fallback to explore page
   return "https://skillsbuild.org/adult-learners/explore-learning";
 }
 
