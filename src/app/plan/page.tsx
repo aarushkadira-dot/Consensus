@@ -145,10 +145,10 @@ export default function PlanPage() {
               color: T.bg,
             }}
           >
-            S
+            C
           </div>
           <span style={{ fontSize: "15px", fontWeight: "600", color: T.text1 }}>
-            SkillBridge
+            Consensus
           </span>
         </div>
 
@@ -255,7 +255,7 @@ export default function PlanPage() {
               ? `${finalPlan.learning_path.phase_1.total_hours} hrs`
               : "22 hrs",
             label: "Upskill time",
-            sub: `${finalPlan?.learning_path?.phase_1?.courses?.length ?? 2} SkillsBuild courses`,
+            sub: `${finalPlan?.learning_path?.phase_1?.courses?.length ?? 2} Consensus courses`,
           },
           {
             value: "+$17K",
@@ -475,7 +475,7 @@ export default function PlanPage() {
                 <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
                   {(finalPlan?.skills?.gaps?.map((g: any) => ({
                     skill: g.name,
-                    course: g.course || "See IBM SkillsBuild",
+                    course: g.course || "See Consensus learning paths",
                     hrs: g.hours ? `${g.hours}hrs` : "—",
                   })) || [
                     { skill: "SQL", course: "SQL for Business", hrs: "10hrs" },
@@ -520,7 +520,7 @@ export default function PlanPage() {
                             </svg>
                           </div>
                           <div style={{ fontSize: "12px", color: T.text3, marginTop: "2px" }}>
-                            IBM SkillsBuild: {gap.course}
+                            Consensus: {gap.course}
                           </div>
                         </div>
                         <span
@@ -867,7 +867,7 @@ export default function PlanPage() {
                   title: "Foundation",
                   color: T.green,
                   items: [
-                    "Complete 2 IBM SkillsBuild courses: Data Analysis Fundamentals (12hrs) + SQL for Business (10hrs)",
+                    "Complete 2 Consensus courses: Data Analysis Fundamentals (12hrs) + SQL for Business (10hrs)",
                     "Build a 3-project portfolio: 1 Excel dashboard, 1 SQL analysis, 1 business case study",
                     "Rewrite resume to highlight: analytical thinking, data-informed decisions, cross-functional collaboration",
                     "Target Business Analyst roles at companies 100–5K employees; apply to 3–5 roles/week",
@@ -880,7 +880,7 @@ export default function PlanPage() {
                     "Land first Business Analyst role (target: 3–6 months)",
                     "In role: ship 2–3 measurable projects, own a product metric, lead 1 cross-functional initiative",
                     "Build relationships with Product team; shadow PM on decisions",
-                    "After 6–9 months BA experience: complete remaining PM SkillsBuild courses",
+                    "After 6–9 months BA experience: complete remaining PM courses on Consensus",
                   ],
                 },
                 {

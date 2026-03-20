@@ -77,9 +77,9 @@ export default function Landing() {
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <div style={{ width: 28, height: 28, borderRadius: 7, background: T.green, display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <span style={{ fontWeight: 800, fontSize: 14, color: "#fff", letterSpacing: "-0.04em" }}>S</span>
+            <span style={{ fontWeight: 800, fontSize: 14, color: "#fff", letterSpacing: "-0.04em" }}>C</span>
           </div>
-          <span style={{ fontSize: 15, fontWeight: 700, letterSpacing: "-0.02em", color: T.text1 }}>SkillBridge</span>
+          <span style={{ fontSize: 15, fontWeight: 700, letterSpacing: "-0.02em", color: T.text1 }}>Consensus</span>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
           <button onClick={scrollToAgents} style={{ background: "none", border: "none", fontSize: 14, color: T.text2, cursor: "pointer", padding: 0 }}
@@ -162,7 +162,7 @@ export default function Landing() {
             transition={{ delay: 0.5, duration: 0.6 }}
             style={{ fontSize: 16, lineHeight: 1.8, color: T.text2, maxWidth: 560, margin: "0 auto 40px" }}
           >
-            Most career tools give you a quiz and a list. SkillBridge deploys four AI agents that analyze your skills, scout the market, plan your learning, and rewrite your resume — then they debate each other until they agree on the best path forward.
+            Most career tools give you a quiz and a list. Consensus deploys four AI agents that analyze your skills, scout the market, plan your learning, and rewrite your resume — then they debate each other until they agree on the best path forward.
           </motion.p>
 
           <motion.div
@@ -265,7 +265,7 @@ export default function Landing() {
                   The consensus model.
                 </h2>
                 <p style={{ fontSize: 15, color: T.text2, lineHeight: 1.82 }}>
-                  The agents don&apos;t just run in parallel — they challenge each other. Market Scout might propose a target role that Career Strategist flags as too big a jump. Learning Planner recalculates. Only when all four align does SkillBridge surface a recommendation. You see the full reasoning chain, not just the answer.
+                  The agents don&apos;t just run in parallel — they challenge each other. Market Scout might propose a target role that Career Strategist flags as too big a jump. Learning Planner recalculates. Only when all four align does Consensus surface a recommendation. You see the full reasoning chain, not just the answer.
                 </p>
               </div>
               <div style={{ flex: "0 0 auto", display: "flex", flexDirection: "column", gap: 0 }}>
@@ -317,7 +317,7 @@ export default function Landing() {
             {[
               { icon: "◈", color: T.green,  label: "Skill gap report",       desc: "Every strength mapped. Every gap quantified with a course to close it." },
               { icon: "◎", color: T.blue,   label: "Target role ranking",     desc: "Your top 3 directions ordered by fit, salary ceiling, and time-to-ready." },
-              { icon: "◇", color: T.amber,  label: "IBM SkillsBuild pathway", desc: "A sequenced learning plan with real courses, badges, and hour estimates." },
+              { icon: "◇", color: T.amber,  label: "Consensus learning pathway", desc: "A sequenced learning plan with real courses, badges, and hour estimates." },
             ].map((d, i) => (
               <FadeUp key={i} delay={i * 0.07}>
                 <div style={{

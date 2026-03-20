@@ -67,7 +67,7 @@ const MESSAGES: Message[] = [
     type: "proposes",
     confidence: 0.79,
     challenges: null,
-    text: "For the PM path: 4 IBM SkillsBuild courses required — Data Analysis Fundamentals (12hrs), Product Management Essentials (8hrs), Agile Methodology (6hrs), SQL for Business (10hrs). Total investment: 36 hours across 4 credentials.",
+    text: "For the PM path: 4 Consensus courses required — Data Analysis Fundamentals (12hrs), Product Management Essentials (8hrs), Agile Methodology (6hrs), SQL for Business (10hrs). Total investment: 36 hours across 4 credentials.",
   },
   {
     id: 4,
@@ -103,7 +103,7 @@ const MESSAGES: Message[] = [
     type: "consensus",
     confidence: 0.97,
     challenges: null,
-    text: "All agents aligned. Recommended strategy: Phase 1 targets Business Analyst (74% overlap, 22 hours upskilling via SkillsBuild). Phase 2 transitions to Product Manager after 6–12 months of BA experience. This two-phase approach optimizes for both speed-to-employment and long-term salary ceiling.",
+    text: "All agents aligned. Recommended strategy: Phase 1 targets Business Analyst (74% overlap, 22 hours upskilling via Consensus). Phase 2 transitions to Product Manager after 6–12 months of BA experience. This two-phase approach optimizes for both speed-to-employment and long-term salary ceiling.",
   },
 ];
 

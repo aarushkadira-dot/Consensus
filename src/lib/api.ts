@@ -251,10 +251,10 @@ export async function getMentorDraft(
 const MOCK_AGENT_CONVERSATION: AgentMessage[] = [
   { agent: "skill_analyst", round: 1, type: "proposal", confidence: 0.89, message: "Identified 18 skills from resume. Strong in: project coordination, client communication, budget management, Salesforce CRM, team leadership. Gaps detected in: data analytics, SQL, Python, product metrics, A/B testing frameworks." },
   { agent: "market_scout", round: 1, type: "proposal", confidence: 0.91, message: "Top 3 reachable roles in target market: Product Manager (67% skill overlap), Business Analyst (74% overlap), Customer Success Manager (82% overlap). PM roles show highest salary ceiling but largest skill gap." },
-  { agent: "learning_planner", round: 1, type: "proposal", confidence: 0.85, message: "For Product Manager path: 4 IBM SkillsBuild courses needed — Data Analysis Fundamentals (12hrs), Product Management Essentials (8hrs), Agile Methodology (6hrs), SQL for Business (10hrs). Total: ~36 hours." },
+  { agent: "learning_planner", round: 1, type: "proposal", confidence: 0.85, message: "For Product Manager path: 4 Consensus courses needed — Data Analysis Fundamentals (12hrs), Product Management Essentials (8hrs), Agile Methodology (6hrs), SQL for Business (10hrs). Total: ~36 hours." },
   { agent: "career_strategist", round: 2, type: "challenge", challenges: "market_scout", confidence: 0.88, message: "I challenge the PM recommendation. With zero product experience, the resume won't pass ATS screening. I propose Business Analyst as Phase 1 — 74% overlap AND the client communication skills translate directly. PM becomes Phase 2 after 6-12 months of BA experience." },
   { agent: "network_agent", round: 2, type: "build", confidence: 0.84, message: "Supporting the BA-first strategy. Found 6 Business Analysts at target companies who transitioned from similar backgrounds. 2 are open to mentoring on LinkedIn. I can draft personalized outreach for both." },
-  { agent: "learning_planner", round: 2, type: "build", confidence: 0.90, message: "Revised pathway for BA-first approach: only 2 SkillsBuild courses needed for Phase 1 — Data Analysis Fundamentals (12hrs) + SQL for Business (10hrs). That's 22 hours vs 36. Phase 2 adds PM-specific courses later." },
+  { agent: "learning_planner", round: 2, type: "build", confidence: 0.90, message: "Revised pathway for BA-first approach: only 2 Consensus courses needed for Phase 1 — Data Analysis Fundamentals (12hrs) + SQL for Business (10hrs). That's 22 hours vs 36. Phase 2 adds PM-specific courses later." },
   { agent: "skill_analyst", round: 3, type: "consensus", confidence: 0.92, message: "Consensus reached. Two-phase plan: Phase 1 targets Business Analyst (smaller gap, faster entry). Phase 2 targets Product Manager (builds on BA experience). All agents aligned." },
 ];
 
@@ -284,7 +284,7 @@ const MOCK_ROLES: TargetRole[] = [
 ];
 
 const MOCK_PLAN: PlanPhase[] = [
-  { phase: 1, title: "Foundation", items: ["Complete SQL for Business on SkillsBuild (10 hrs)", "Complete Data Analysis Fundamentals (12 hrs)", "Earn IBM Data Fundamentals badge", "Update resume with BA positioning"] },
+  { phase: 1, title: "Foundation", items: ["Complete SQL for Business on Consensus (10 hrs)", "Complete Data Analysis Fundamentals (12 hrs)", "Earn IBM Data Fundamentals badge", "Update resume with BA positioning"] },
   { phase: 2, title: "Apply", items: ["Target Business Analyst roles at 3 companies", "Use reframed resume + cover letter from Career Strategist", "Connect with 2 mentor matches from Network Agent", "Prepare for interviews with generated talking points"] },
   { phase: 3, title: "Level up", items: ["After 6\u201312 months as BA, begin PM transition", "Complete Product Management Essentials (8 hrs)", "Complete Agile Methodology (6 hrs)", "Build internal case study for PM portfolio"] },
 ];
