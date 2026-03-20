@@ -7,8 +7,55 @@ Built for the NCCU IBM watsonx Hackathon. Consensus takes your professional back
 ---
 
 ## Agent Pipeline
+```mermaid
+flowchart TD
+    INPUT([User input\nbackground + career goal]) --> VALIDATE
 
-![Consensus Agent Pipeline](./public/pipeline.png)
+    subgraph VALIDATE["Input validation"]
+        V1["background ≥ 50 chars\ngoal ≥ 10 chars"]
+    end
+
+    VALIDATE --> STEP1
+
+    subgraph STEP1["Step 1 — sequential"]
+        GI["Goal Interpreter\nStructured JSON extraction"]
+        GI_OUT["career_mode · current_role\nskills · target · urgency\nyears_exp · education"]
+        GI --> GI_OUT
+    end
+
+    STEP1 --> STEP2
+
+    subgraph STEP2["Step 2 — parallel Promise.all"]
+        SA["Skill Analyst\nProficiency scores + gaps"]
+        MS["Market Scout\nRole directions + salary"]
+    end
+
+    STEP2 --> STEP3
+
+    subgraph STEP3["Step 3 — parallel Promise.all"]
+        LP["Learning Planner\nIBM SkillsBuild path"]
+        CS["Career Strategist\nResume + cover letter"]
+    end
+
+    STEP3 --> CHECK
+
+    subgraph CHECK["Consensus checkpoint"]
+        FB["Fallback detection\nusedFallback flag"]
+        CONV["buildAgentMessages\nchallenge + consensus rounds"]
+        FB --> CONV
+    end
+
+    CHECK --> ASSEMBLE
+
+    subgraph ASSEMBLE["Plan assembler"]
+        OUT["final_plan JSON\nskills · roles · learning_path · application_kit"]
+    end
+
+    ASSEMBLE --> RESPONSE([API response\nto /agents page])
+
+    CATALOG[("IBM SkillsBuild\ncatalog JSON")] -.->|course lookup| LP
+    JOBS[("Job listings\nJSON")] -.->|static data| MS
+```
 
 The pipeline runs in three sequential steps, with agents executing in parallel where possible to minimize latency:
 
