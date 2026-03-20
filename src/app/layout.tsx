@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "SkillBridge — AI Career Strategy Team",
+  title: "Consensus — AI Career Strategy Team",
   description:
     "Five AI agents collaborate to build your personalized career plan. Powered by IBM watsonx & SkillsBuild.",
 };
