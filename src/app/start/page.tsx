@@ -34,6 +34,7 @@ export default function StartPage() {
   const [mode, setMode] = useState("transition");
   const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const backgroundRef = useRef<HTMLTextAreaElement>(null);
@@ -67,6 +68,7 @@ export default function StartPage() {
   const handleLaunch = async () => {
     if (!background || !goal) return;
     setLoading(true);
+    setApiError(null);
     try {
       const res = await fetch("/api/generate-plan", {
         method: "POST",
@@ -74,10 +76,16 @@ export default function StartPage() {
         body: JSON.stringify({ background, goal }),
       });
       const data = await res.json();
+      if (!res.ok) {
+        // Surface validation errors (e.g. resume too short) to the user
+        setApiError(data.error || "Something went wrong. Please try again.");
+        setLoading(false);
+        return;
+      }
       sessionStorage.setItem("agent_messages", JSON.stringify(data.agent_messages));
       sessionStorage.setItem("final_plan", JSON.stringify(data.final_plan));
     } catch (err) {
-      // API failed — demo still navigates with fallback data
+      // Network failure — demo still navigates with fallback data
       console.error("generate-plan failed:", err);
     }
     sessionStorage.setItem("sb_background", background);
@@ -322,6 +330,24 @@ export default function StartPage() {
             </button>
           ))}
         </div>
+
+        {/* API error */}
+        {apiError && (
+          <div
+            style={{
+              background: "rgba(239,68,68,0.08)",
+              border: "1px solid rgba(239,68,68,0.3)",
+              borderRadius: "6px",
+              padding: "12px 16px",
+              marginBottom: "16px",
+              fontSize: "13px",
+              color: T.coral,
+              lineHeight: "1.5",
+            }}
+          >
+            {apiError}
+          </div>
+        )}
 
         {/* Launch button */}
         <motion.button

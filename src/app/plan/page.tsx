@@ -495,6 +495,8 @@ export default function PlanPage() {
                 gap: d.gap_skills?.length ? `${d.gap_skills.length} skill gaps` : "",
                 color: idx < 2 ? T.green : T.indigo,
                 body: d.why_reachable,
+                readiness: d.readiness as "ready" | "upskill_needed" | "significant_gap" | undefined,
+                readiness_message: d.readiness_message as string | undefined,
               })) || [
                 {
                   title: "Business Analyst",
@@ -505,6 +507,8 @@ export default function PlanPage() {
                   gap: "22 hrs gap",
                   color: T.green,
                   body: "Highest skill overlap. ATS-passable immediately. Direct stepping stone to PM.",
+                  readiness: undefined,
+                  readiness_message: undefined,
                 },
                 {
                   title: "Customer Success Manager",
@@ -515,6 +519,8 @@ export default function PlanPage() {
                   gap: "8 hrs gap",
                   color: T.green,
                   body: "Highest overlap but lower PM trajectory. Consider only if you prefer customer focus.",
+                  readiness: undefined,
+                  readiness_message: undefined,
                 },
                 {
                   title: "Product Manager",
@@ -525,8 +531,19 @@ export default function PlanPage() {
                   gap: "36 hrs gap",
                   color: T.indigo,
                   body: "Highest ceiling. Requires Phase 1 credentials and 6–12 months of BA experience for credible candidacy.",
+                  readiness: undefined,
+                  readiness_message: undefined,
                 },
-              ]).map((role: any) => (
+              ]).map((role: any) => {
+                const readinessCfg = role.readiness === "ready"
+                  ? { label: "You're qualified", bg: T.greenDim, border: T.greenBorder, color: T.green }
+                  : role.readiness === "upskill_needed"
+                  ? { label: "Upskilling needed", bg: T.amberDim, border: `rgba(245,158,11,0.35)`, color: T.amber }
+                  : role.readiness === "significant_gap"
+                  ? { label: "Significant gap", bg: T.coralDim, border: `rgba(239,68,68,0.3)`, color: T.coral }
+                  : null;
+
+                return (
                 <div
                   key={role.title}
                   style={{
@@ -536,7 +553,7 @@ export default function PlanPage() {
                     padding: "20px 24px",
                   }}
                 >
-                  <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "12px" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "12px", flexWrap: "wrap" }}>
                     <div
                       style={{
                         padding: "4px 8px",
@@ -551,6 +568,21 @@ export default function PlanPage() {
                       {role.phase}
                     </div>
                     <h3 style={{ fontSize: "15px", fontWeight: "600", color: T.text1 }}>{role.title}</h3>
+                    {readinessCfg && (
+                      <div
+                        style={{
+                          padding: "4px 10px",
+                          background: readinessCfg.bg,
+                          border: `1px solid ${readinessCfg.border}`,
+                          color: readinessCfg.color,
+                          fontSize: "11px",
+                          fontWeight: "600",
+                          borderRadius: "3px",
+                        }}
+                      >
+                        {readinessCfg.label}
+                      </div>
+                    )}
                     {role.badge && (
                       <span style={{ fontSize: "11px", color: T.text3, marginLeft: "auto" }}>{role.badge}</span>
                     )}
@@ -567,8 +599,14 @@ export default function PlanPage() {
                     </div>
                   </div>
                   <p style={{ fontSize: "13px", color: T.text2, lineHeight: "1.6" }}>{role.body}</p>
+                  {role.readiness_message && (
+                    <p style={{ fontSize: "13px", color: T.text2, lineHeight: "1.6", marginTop: "8px", paddingTop: "8px", borderTop: `1px solid ${T.border}` }}>
+                      {role.readiness_message}
+                    </p>
+                  )}
                 </div>
-              ))}
+                );
+              })}
             </div>
 
             {/* Salary trajectory */}
