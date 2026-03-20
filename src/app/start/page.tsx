@@ -1,9 +1,192 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+
+// ─── Agent network loading animation ───────────────────────────────────────
+
+const AGENTS_CFG = [
+  { key: "skill_analyst",    label: "Skill Analyst",     border: "#134E4A", glow: "rgba(45,212,160,0.13)",  x: 150, y: 52  },
+  { key: "market_scout",     label: "Market Scout",      border: "#64748B", glow: "rgba(71,85,105,0.2)",    x: 268, y: 155 },
+  { key: "learning_planner", label: "Learning Planner",  border: "#78716C", glow: "rgba(120,113,108,0.2)",  x: 32,  y: 155 },
+  { key: "career_strategist",label: "Career Strategist", border: "#6B7280", glow: "rgba(107,114,128,0.2)",  x: 150, y: 258 },
+];
+
+// Pairs of agent indices that share a connection line
+const EDGES = [[0,1],[0,2],[1,3],[2,3],[0,3],[1,2]];
+
+const STATUS_MESSAGES = [
+  "Skill Analyst scanning your background...",
+  "Market Scout mapping the job market...",
+  "Learning Planner identifying skill gaps...",
+  "Career Strategist building your roadmap...",
+  "Agents reaching consensus...",
+];
+
+function AgentIconInSVG({ k, cx, cy, color }: { k: string; cx: number; cy: number; color: string }) {
+  if (k === "skill_analyst") return (
+    <g>
+      <circle cx={cx-1.5} cy={cy-2} r={4.5} stroke={color} strokeWidth={1.2} fill="none"/>
+      <line x1={cx+1.8} y1={cy+1.5} x2={cx+5.5} y2={cy+5.5} stroke={color} strokeWidth={1.5} strokeLinecap="round"/>
+    </g>
+  );
+  if (k === "market_scout") return (
+    <g>
+      <rect x={cx-5.5} y={cy+0.5} width={2.5} height={4.5} rx={0.3} fill={color}/>
+      <rect x={cx-1.5} y={cy-2.5} width={2.5} height={7.5} rx={0.3} fill={color}/>
+      <rect x={cx+2.5} y={cy-5.5} width={2.5} height={10.5} rx={0.3} fill={color}/>
+    </g>
+  );
+  if (k === "learning_planner") return (
+    <g>
+      <path d={`M${cx} ${cy-5}C${cx} ${cy-5} ${cx-5.5} ${cy-6} ${cx-5.5} ${cy+3}C${cx-5.5} ${cy+3} ${cx} ${cy+2} ${cx} ${cy+5}`} stroke={color} strokeWidth={1.2} fill="none"/>
+      <path d={`M${cx} ${cy-5}C${cx} ${cy-5} ${cx+5.5} ${cy-6} ${cx+5.5} ${cy+3}C${cx+5.5} ${cy+3} ${cx} ${cy+2} ${cx} ${cy+5}`} stroke={color} strokeWidth={1.2} fill="none"/>
+      <line x1={cx} y1={cy-5} x2={cx} y2={cy+5} stroke={color} strokeWidth={0.8} strokeOpacity={0.5}/>
+    </g>
+  );
+  // career_strategist
+  return (
+    <g>
+      <rect x={cx-5} y={cy-6} width={10} height={12} rx={1} stroke={color} strokeWidth={1.2} fill="none"/>
+      <line x1={cx-3} y1={cy-2} x2={cx+3} y2={cy-2} stroke={color} strokeWidth={1} strokeLinecap="round"/>
+      <line x1={cx-3} y1={cy+1} x2={cx+3} y2={cy+1} stroke={color} strokeWidth={1} strokeLinecap="round"/>
+      <line x1={cx-3} y1={cy+4} x2={cx+1} y2={cy+4} stroke={color} strokeWidth={1} strokeLinecap="round"/>
+    </g>
+  );
+}
+
+// One animated packet traveling from (x1,y1) → (x2,y2) then fading out
+function Signal({ x1, y1, x2, y2, color, delay }: {
+  x1: number; y1: number; x2: number; y2: number; color: string; delay: number;
+}) {
+  return (
+    <motion.circle
+      r={2.2}
+      fill={color}
+      fillOpacity={0}
+      animate={{
+        cx:          [x1, x2],
+        cy:          [y1, y2],
+        fillOpacity: [0, 0.75, 0.75, 0],
+      }}
+      transition={{
+        duration: 2.2,
+        repeat: Infinity,
+        repeatDelay: 1.4,
+        delay,
+        ease: "linear",
+        times: [0, 0.08, 0.92, 1],
+      }}
+    />
+  );
+}
+
+function AgentsLoadingAnimation() {
+  const [statusIdx, setStatusIdx] = useState(0);
+  const [activeEdge, setActiveEdge] = useState(0);
+
+  useEffect(() => {
+    const t1 = setInterval(() => setStatusIdx(i => (i + 1) % STATUS_MESSAGES.length), 2200);
+    const t2 = setInterval(() => setActiveEdge(i => (i + 1) % EDGES.length), 800);
+    return () => { clearInterval(t1); clearInterval(t2); };
+  }, []);
+
+  const W = 300, H = 310;
+
+  return (
+    <div style={{
+      display: "flex", flexDirection: "column", alignItems: "center",
+      justifyContent: "center", minHeight: "100vh", background: "#08090C",
+    }}>
+      {/* SVG network */}
+      <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} overflow="visible">
+
+        {/* Static dashed edges */}
+        {EDGES.map(([a, b], i) => {
+          const pa = AGENTS_CFG[a], pb = AGENTS_CFG[b];
+          const isActive = activeEdge === i;
+          return (
+            <line key={i}
+              x1={pa.x} y1={pa.y} x2={pb.x} y2={pb.y}
+              stroke={isActive ? "#3A3A3E" : "#2A2A2E"}
+              strokeWidth={0.9}
+              strokeDasharray="3 5"
+            />
+          );
+        })}
+
+        {/* Traveling signal packets — one per edge, staggered */}
+        {EDGES.map(([a, b], i) => {
+          const pa = AGENTS_CFG[a], pb = AGENTS_CFG[b];
+          const color = AGENTS_CFG[a].border;
+          return (
+            <g key={i}>
+              <Signal x1={pa.x} y1={pa.y} x2={pb.x} y2={pb.y} color={color} delay={i * 0.55} />
+              <Signal x1={pb.x} y1={pb.y} x2={pa.x} y2={pa.y} color={AGENTS_CFG[b].border} delay={i * 0.55 + 1.1} />
+            </g>
+          );
+        })}
+
+        {/* Agent circles */}
+        {AGENTS_CFG.map((ag) => (
+          <g key={ag.key}>
+            {/* Glow pulse */}
+            <motion.circle
+              cx={ag.x} cy={ag.y} r={26}
+              fill={ag.glow}
+              animate={{ opacity: [0.4, 0.85, 0.4] }}
+              transition={{ duration: 2.8, repeat: Infinity, delay: Math.random() * 1.5 }}
+            />
+            {/* Main circle */}
+            <motion.circle
+              cx={ag.x} cy={ag.y} r={18}
+              fill="#141416"
+              stroke={ag.border}
+              strokeWidth={1}
+              animate={{ strokeOpacity: [0.4, 0.9, 0.4] }}
+              transition={{ duration: 2.8, repeat: Infinity }}
+            />
+            {/* Icon */}
+            <AgentIconInSVG k={ag.key} cx={ag.x} cy={ag.y} color={ag.border} />
+            {/* Label */}
+            <text
+              x={ag.x} y={ag.y + 30}
+              textAnchor="middle"
+              fill="#6B6A65"
+              fontSize={8}
+              fontFamily="JetBrains Mono, monospace"
+            >
+              {ag.label}
+            </text>
+          </g>
+        ))}
+      </svg>
+
+      {/* Cycling status text */}
+      <div style={{ marginTop: "36px", height: "20px", textAlign: "center" }}>
+        <AnimatePresence mode="wait">
+          <motion.p
+            key={statusIdx}
+            initial={{ opacity: 0, y: 4 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -4 }}
+            transition={{ duration: 0.3 }}
+            style={{
+              fontSize: "12px",
+              color: "#48463F",
+              fontFamily: "JetBrains Mono, monospace",
+              letterSpacing: "0.02em",
+            }}
+          >
+            {STATUS_MESSAGES[statusIdx]}
+          </motion.p>
+        </AnimatePresence>
+      </div>
+    </div>
+  );
+}
 
 const T = {
   bg: "#08090C",
@@ -95,6 +278,9 @@ export default function StartPage() {
     sessionStorage.setItem("user_goal", goal);
     router.push("/agents");
   };
+
+  // Show the agent network animation while the API call is in flight
+  if (loading) return <AgentsLoadingAnimation />;
 
   return (
     <div
@@ -358,7 +544,7 @@ export default function StartPage() {
             marginBottom: "48px",
           }}
         >
-          {loading ? "Agents launching..." : "Launch agents →"}
+          Launch agents →
         </motion.button>
 
         {/* Privacy notice */}
