@@ -1,0 +1,498 @@
+{
+  "Business Analyst": [
+    {
+      "title": "Technical Business Analyst",
+      "company": "CapAcuity",
+      "location": "Albany, NY",
+      "type": "Contract",
+      "level": "",
+      "remote": false,
+      "salary": "$60K\u2013$80K",
+      "url": "https://www.linkedin.com/jobs/view/3780415828/?trk=jobs_biz_prem_srch"
+    },
+    {
+      "title": "Data Analyst",
+      "company": "Tenazx Inc",
+      "location": "Queens, NY",
+      "type": "Contract",
+      "level": "",
+      "remote": false,
+      "salary": "",
+      "url": "https://www.linkedin.com/jobs/view/3813645405/?trk=jobs_biz_prem_srch"
+    },
+    {
+      "title": "Junior Business Analyst",
+      "company": "Benda Infotech",
+      "location": "Chicago, IL",
+      "type": "Full-time",
+      "level": "",
+      "remote": false,
+      "salary": "",
+      "url": "https://www.linkedin.com/jobs/view/3844031840/?trk=jobs_biz_prem_srch"
+    },
+    {
+      "title": "Technical Business Analyst Local to Des Moines, Iowa",
+      "company": "HERMEZ-IT",
+      "location": "Des Moines, IA",
+      "type": "Contract",
+      "level": "",
+      "remote": false,
+      "salary": "",
+      "url": "https://www.linkedin.com/jobs/view/3860323934/?trk=jobs_biz_prem_srch"
+    },
+    {
+      "title": "eCommerce Data Analyst",
+      "company": "Radiant Systems Inc",
+      "location": "United States",
+      "type": "Contract",
+      "level": "",
+      "remote": false,
+      "salary": "",
+      "url": "https://www.linkedin.com/jobs/view/3872787865/?trk=jobs_biz_prem_srch"
+    },
+    {
+      "title": "Senior Business Analyst (Pharma/Biotech/Scientific)",
+      "company": "Infotree Global Solutions",
+      "location": "Cambridge, MA",
+      "type": "Contract",
+      "level": "Mid-Senior level",
+      "remote": false,
+      "salary": "",
+      "url": "https://www.linkedin.com/jobs/view/3884429717/?trk=jobs_biz_prem_srch"
+    }
+  ],
+  "Product Manager": [
+    {
+      "title": "Product Manager",
+      "company": "Swipeclock",
+      "location": "South Jordan, UT",
+      "type": "Full-time",
+      "level": "",
+      "remote": false,
+      "salary": "$100K\u2013$120K",
+      "url": "https://www.linkedin.com/jobs/view/3862107843/?trk=jobs_biz_prem_srch"
+    },
+    {
+      "title": "Technical Product Manager - Cloud",
+      "company": "InRhythm",
+      "location": "Palo Alto, CA",
+      "type": "Contract",
+      "level": "Mid-Senior level",
+      "remote": false,
+      "salary": "",
+      "url": "https://www.linkedin.com/jobs/view/3884425580/?trk=jobs_biz_prem_srch"
+    },
+    {
+      "title": "Cloud Product Manager",
+      "company": "Akkodis",
+      "location": "Plano, TX",
+      "type": "Contract",
+      "level": "Mid-Senior level",
+      "remote": false,
+      "salary": "$56\u2013$58/hr",
+      "url": "https://www.linkedin.com/jobs/view/3884435336/?trk=jobs_biz_prem_srch"
+    },
+    {
+      "title": "Senior Product Manager",
+      "company": "LHH",
+      "location": "Dallas, TX",
+      "type": "Full-time",
+      "level": "",
+      "remote": false,
+      "salary": "",
+      "url": "https://www.linkedin.com/jobs/view/3884435406/?trk=jobs_biz_prem_srch"
+    },
+    {
+      "title": "Product Manager I",
+      "company": "Coinbase",
+      "location": "Seattle, WA",
+      "type": "Full-time",
+      "level": "Mid-Senior level",
+      "remote": false,
+      "salary": "$140K\u2013$165K",
+      "url": "https://www.linkedin.com/jobs/view/3884435802/?trk=jobs_biz_prem_srch"
+    },
+    {
+      "title": "Senior Product Manager",
+      "company": "LHH",
+      "location": "Dallas-Fort Worth Metroplex",
+      "type": "Full-time",
+      "level": "Mid-Senior level",
+      "remote": false,
+      "salary": "",
+      "url": "https://www.linkedin.com/jobs/view/3884436638/?trk=jobs_biz_prem_srch"
+    }
+  ],
+  "Customer Success Manager": [
+    {
+      "title": "Customer Success Manager",
+      "company": "Conduit Tech",
+      "location": "United States",
+      "type": "Full-time",
+      "level": "",
+      "remote": false,
+      "salary": "",
+      "url": "https://www.linkedin.com/jobs/view/3515274431/?trk=jobs_biz_prem_srch"
+    },
+    {
+      "title": "Client Success Manager (Locums Tenens)",
+      "company": "Cynet Locums",
+      "location": "Washington DC-Baltimore Area",
+      "type": "Full-time",
+      "level": "Mid-Senior level",
+      "remote": false,
+      "salary": "",
+      "url": "https://www.linkedin.com/jobs/view/3660449148/?trk=jobs_biz_prem_srch"
+    },
+    {
+      "title": "Customer Success Manager, Donor Gamete Services",
+      "company": "CooperSurgical",
+      "location": "United States",
+      "type": "Full-time",
+      "level": "Mid-Senior level",
+      "remote": false,
+      "salary": "$100K\u2013$145K",
+      "url": "https://www.linkedin.com/jobs/view/3884822117/?trk=jobs_biz_prem_srch"
+    },
+    {
+      "title": "Resy Customer Success Manager - New York",
+      "company": "American Express",
+      "location": "New York, NY",
+      "type": "Full-time",
+      "level": "Mid-Senior level",
+      "remote": false,
+      "salary": "$60K\u2013$110K",
+      "url": "https://www.linkedin.com/jobs/view/3884834560/?trk=jobs_biz_prem_srch"
+    },
+    {
+      "title": "Customer Success Associate",
+      "company": "Lightcast",
+      "location": "Moscow, ID",
+      "type": "Full-time",
+      "level": "Entry level",
+      "remote": false,
+      "salary": "",
+      "url": "https://www.linkedin.com/jobs/view/3884848965/?trk=jobs_biz_prem_srch"
+    },
+    {
+      "title": "Customer Success Manager, Community Education",
+      "company": "Replo",
+      "location": "San Francisco Bay Area",
+      "type": "Full-time",
+      "level": "",
+      "remote": false,
+      "salary": "$100K\u2013$130K",
+      "url": "https://www.linkedin.com/jobs/view/3884857557/?trk=jobs_biz_prem_srch"
+    }
+  ],
+  "Data Analyst": [
+    {
+      "title": "Wealth Management Business Data Analyst",
+      "company": "MCubeSoft",
+      "location": "Charlotte, NC",
+      "type": "Full-time",
+      "level": "",
+      "remote": false,
+      "salary": "",
+      "url": "https://www.linkedin.com/jobs/view/3884432522/?trk=jobs_biz_prem_srch"
+    },
+    {
+      "title": "Senior Data Analyst - AI Training (Remote, Contract)",
+      "company": "Outlier",
+      "location": "United States",
+      "type": "Contract",
+      "level": "Mid-Senior level",
+      "remote": false,
+      "salary": "",
+      "url": "https://www.linkedin.com/jobs/view/3884434978/?trk=jobs_biz_prem_srch"
+    },
+    {
+      "title": "Business Intelligence Analyst",
+      "company": "Insight Global",
+      "location": "Fishers, IN",
+      "type": "Full-time",
+      "level": "Associate",
+      "remote": false,
+      "salary": "$60K\u2013$67K",
+      "url": "https://www.linkedin.com/jobs/view/3884435156/?trk=jobs_biz_prem_srch"
+    },
+    {
+      "title": "Analytics Engineer",
+      "company": "Switch RCM",
+      "location": "United States",
+      "type": "Full-time",
+      "level": "",
+      "remote": false,
+      "salary": "",
+      "url": "https://www.linkedin.com/jobs/view/3884437645/?trk=jobs_biz_prem_srch"
+    },
+    {
+      "title": "Onsite Data Analyst || USC ONLY || FL LOCALS",
+      "company": "USCTEK - Recruiting & Staffing",
+      "location": "Jacksonville, FL",
+      "type": "Contract",
+      "level": "",
+      "remote": false,
+      "salary": "",
+      "url": "https://www.linkedin.com/jobs/view/3884438958/?trk=jobs_biz_prem_srch"
+    },
+    {
+      "title": "Sr. Procurement Data Analyst",
+      "company": "Republic Services",
+      "location": "Phoenix, AZ",
+      "type": "Full-time",
+      "level": "",
+      "remote": false,
+      "salary": "",
+      "url": "https://www.linkedin.com/jobs/view/3884439454/?trk=jobs_biz_prem_srch"
+    }
+  ],
+  "Marketing Manager": [
+    {
+      "title": "Senior Product Marketing Manager",
+      "company": "Staffing Theory",
+      "location": "United States",
+      "type": "Full-time",
+      "level": "",
+      "remote": false,
+      "salary": "",
+      "url": "https://www.linkedin.com/jobs/view/69333422/?trk=jobs_biz_prem_srch"
+    },
+    {
+      "title": "Marketing Manager",
+      "company": "CITY Boots",
+      "location": "Fort Worth, TX",
+      "type": "Full-time",
+      "level": "",
+      "remote": false,
+      "salary": "",
+      "url": "https://www.linkedin.com/jobs/view/3514667133/?trk=jobs_biz_prem_srch"
+    },
+    {
+      "title": "Marketing Manager",
+      "company": "Balltime",
+      "location": "United States",
+      "type": "Full-time",
+      "level": "",
+      "remote": false,
+      "salary": "",
+      "url": "https://www.linkedin.com/jobs/view/3594311833/?trk=jobs_biz_prem_srch"
+    },
+    {
+      "title": "Digital Marketing Manager",
+      "company": "Visit Anchorage",
+      "location": "Anchorage, AK",
+      "type": "Full-time",
+      "level": "",
+      "remote": false,
+      "salary": "",
+      "url": "https://www.linkedin.com/jobs/view/3715436359/?trk=jobs_biz_prem_srch"
+    },
+    {
+      "title": "Associate Marketing Manager",
+      "company": "Cagent Vascular",
+      "location": "Wayne, PA",
+      "type": "Full-time",
+      "level": "",
+      "remote": false,
+      "salary": "",
+      "url": "https://www.linkedin.com/jobs/view/3837482218/?trk=jobs_biz_prem_srch"
+    },
+    {
+      "title": "Marketing Manager",
+      "company": "THE WELL",
+      "location": "New York City Metropolitan Area",
+      "type": "Full-time",
+      "level": "",
+      "remote": false,
+      "salary": "$70K\u2013$85K",
+      "url": "https://www.linkedin.com/jobs/view/3866844290/?trk=jobs_biz_prem_srch"
+    }
+  ],
+  "UX Designer": [
+    {
+      "title": "User Experience Designer",
+      "company": "Starup Insurance",
+      "location": "California, United States",
+      "type": "Contract",
+      "level": "",
+      "remote": false,
+      "salary": "",
+      "url": "https://www.linkedin.com/jobs/view/3555161614/?trk=jobs_biz_prem_srch"
+    },
+    {
+      "title": "Product Designer",
+      "company": "Under Canvas Inc.",
+      "location": "Belgrade, MT",
+      "type": "Full-time",
+      "level": "",
+      "remote": false,
+      "salary": "",
+      "url": "https://www.linkedin.com/jobs/view/3826266913/?trk=jobs_biz_prem_srch"
+    },
+    {
+      "title": "Lead Product Designer",
+      "company": "Thurgood Industries",
+      "location": "Austin, TX",
+      "type": "Full-time",
+      "level": "",
+      "remote": false,
+      "salary": "",
+      "url": "https://www.linkedin.com/jobs/view/3875677847/?trk=jobs_biz_prem_srch"
+    },
+    {
+      "title": "User Experience Designer",
+      "company": "Optomi",
+      "location": "United States",
+      "type": "Contract",
+      "level": "Associate",
+      "remote": false,
+      "salary": "",
+      "url": "https://www.linkedin.com/jobs/view/3884430732/?trk=jobs_biz_prem_srch"
+    },
+    {
+      "title": "Senior UI/UX Engineer (Hybrid)",
+      "company": "Brooksource",
+      "location": "Chicago, IL",
+      "type": "Contract",
+      "level": "Mid-Senior level",
+      "remote": false,
+      "salary": "$80\u2013$85/hr",
+      "url": "https://www.linkedin.com/jobs/view/3884441232/?trk=jobs_biz_prem_srch"
+    },
+    {
+      "title": "Product Designer",
+      "company": "Ulta Beauty",
+      "location": "Bolingbrook, IL",
+      "type": "Full-time",
+      "level": "",
+      "remote": false,
+      "salary": "",
+      "url": "https://www.linkedin.com/jobs/view/3884899824/?trk=jobs_biz_prem_srch"
+    }
+  ],
+  "Project Manager": [
+    {
+      "title": "Construction Project Manager",
+      "company": "W.C. Construction Company, LLC",
+      "location": "Raleigh-Durham-Chapel Hill Area",
+      "type": "Full-time",
+      "level": "",
+      "remote": false,
+      "salary": "",
+      "url": "https://www.linkedin.com/jobs/view/2987175317/?trk=jobs_biz_prem_srch"
+    },
+    {
+      "title": "Architect/Project Manager",
+      "company": "ASA Architects",
+      "location": "Las Cruces, NM",
+      "type": "Full-time",
+      "level": "",
+      "remote": false,
+      "salary": "$50K\u2013$60K",
+      "url": "https://www.linkedin.com/jobs/view/3075721793/?trk=jobs_biz_prem_srch"
+    },
+    {
+      "title": "Commercial Construction Project Managers/Superintendents",
+      "company": "Eclipse Building Corp",
+      "location": "Land O' Lakes, FL",
+      "type": "Full-time",
+      "level": "",
+      "remote": false,
+      "salary": "",
+      "url": "https://www.linkedin.com/jobs/view/3270034794/?trk=jobs_biz_prem_srch"
+    },
+    {
+      "title": "Project Manager",
+      "company": "McInnis Engineering",
+      "location": "Tacoma, WA",
+      "type": "Full-time",
+      "level": "",
+      "remote": false,
+      "salary": "",
+      "url": "https://www.linkedin.com/jobs/view/3299509053/?trk=jobs_biz_prem_srch"
+    },
+    {
+      "title": "Scientific Project Manager for Food, Beverage, and Consumer Packaged Goods Industries (Project Architect | PA)",
+      "company": "PreScouter, Inc.",
+      "location": "United States",
+      "type": "Full-time",
+      "level": "",
+      "remote": false,
+      "salary": "",
+      "url": "https://www.linkedin.com/jobs/view/3594710940/?trk=jobs_biz_prem_srch"
+    },
+    {
+      "title": "Software Implementation Program Manager",
+      "company": "Akshaya Inc",
+      "location": "Cupertino, CA",
+      "type": "Contract",
+      "level": "",
+      "remote": false,
+      "salary": "",
+      "url": "https://www.linkedin.com/jobs/view/3700068571/?trk=jobs_biz_prem_srch"
+    }
+  ],
+  "Software Engineer": [
+    {
+      "title": "Software Engineer",
+      "company": "GOYT",
+      "location": "Denver, CO",
+      "type": "Part-time",
+      "level": "",
+      "remote": false,
+      "salary": "",
+      "url": "https://www.linkedin.com/jobs/view/175485704/?trk=jobs_biz_prem_srch"
+    },
+    {
+      "title": "Full Stack Engineer",
+      "company": "Ideando Inc",
+      "location": "United States",
+      "type": "Full-time",
+      "level": "",
+      "remote": false,
+      "salary": "",
+      "url": "https://www.linkedin.com/jobs/view/2234533717/?trk=jobs_biz_prem_srch"
+    },
+    {
+      "title": "Senior Software Engineer",
+      "company": "StyleAI",
+      "location": "San Francisco Bay Area",
+      "type": "Full-time",
+      "level": "",
+      "remote": false,
+      "salary": "",
+      "url": "https://www.linkedin.com/jobs/view/3586167732/?trk=jobs_biz_prem_srch"
+    },
+    {
+      "title": "Principal Backend Engineer",
+      "company": "HireBus",
+      "location": "United States",
+      "type": "Full-time",
+      "level": "",
+      "remote": false,
+      "salary": "",
+      "url": "https://www.linkedin.com/jobs/view/3728459637/?trk=jobs_biz_prem_srch"
+    },
+    {
+      "title": "Data Science Software Engineer",
+      "company": "Sovrinti",
+      "location": "United States",
+      "type": "Full-time",
+      "level": "",
+      "remote": false,
+      "salary": "",
+      "url": "https://www.linkedin.com/jobs/view/3800272386/?trk=jobs_biz_prem_srch"
+    },
+    {
+      "title": "Flight Software Engineer",
+      "company": "Insight Global",
+      "location": "Webster, TX",
+      "type": "Full-time",
+      "level": "Mid-Senior level",
+      "remote": false,
+      "salary": "$140K\u2013$170K",
+      "url": "https://www.linkedin.com/jobs/view/3803052628/?trk=jobs_biz_prem_srch"
+    }
+  ]
+}
