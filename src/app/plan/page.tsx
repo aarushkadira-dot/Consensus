@@ -59,6 +59,7 @@ export default function PlanPage() {
   const [activeTab, setActiveTab] = useState("overview");
   const [finalPlan, setFinalPlan] = useState<any>(null);
   const [userGoal, setUserGoal] = useState("");
+  const [jobsTooltip, setJobsTooltip] = useState<string | null>(null);
 
   useEffect(() => {
     const raw = sessionStorage.getItem("final_plan");
@@ -604,6 +605,86 @@ export default function PlanPage() {
                       {role.readiness_message}
                     </p>
                   )}
+
+                  {/* View matching jobs button */}
+                  <div style={{ marginTop: "14px", position: "relative", display: "inline-block" }}>
+                    <button
+                      onClick={() => setJobsTooltip(jobsTooltip === role.title ? null : role.title)}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "6px",
+                        padding: "6px 12px",
+                        background: "transparent",
+                        border: `1px solid ${T.border}`,
+                        borderRadius: "4px",
+                        color: T.text3,
+                        fontSize: "12px",
+                        cursor: "pointer",
+                        transition: "border-color 0.15s, color 0.15s",
+                      }}
+                      onMouseEnter={e => {
+                        (e.currentTarget as HTMLButtonElement).style.borderColor = T.borderMid;
+                        (e.currentTarget as HTMLButtonElement).style.color = T.text2;
+                      }}
+                      onMouseLeave={e => {
+                        (e.currentTarget as HTMLButtonElement).style.borderColor = T.border;
+                        (e.currentTarget as HTMLButtonElement).style.color = T.text3;
+                      }}
+                    >
+                      {/* Lock icon */}
+                      <svg width="11" height="12" viewBox="0 0 11 12" fill="none">
+                        <rect x="1" y="5" width="9" height="7" rx="1.2" stroke="currentColor" strokeWidth="1.1" />
+                        <path d="M3 5V3.5a2.5 2.5 0 0 1 5 0V5" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
+                      </svg>
+                      View matching jobs
+                    </button>
+
+                    {/* Tooltip */}
+                    {jobsTooltip === role.title && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.15 }}
+                        style={{
+                          position: "absolute",
+                          bottom: "calc(100% + 8px)",
+                          left: 0,
+                          width: "280px",
+                          background: T.elevated,
+                          border: `1px solid ${T.borderMid}`,
+                          borderRadius: "6px",
+                          padding: "12px 14px",
+                          zIndex: 50,
+                          boxShadow: "0 8px 24px rgba(0,0,0,0.4)",
+                        }}
+                      >
+                        <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "6px" }}>
+                          <svg width="11" height="12" viewBox="0 0 11 12" fill="none" style={{ color: T.text3, flexShrink: 0 }}>
+                            <rect x="1" y="5" width="9" height="7" rx="1.2" stroke="currentColor" strokeWidth="1.1" />
+                            <path d="M3 5V3.5a2.5 2.5 0 0 1 5 0V5" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
+                          </svg>
+                          <span style={{ fontSize: "11px", fontWeight: "600", color: T.text2 }}>Coming soon</span>
+                        </div>
+                        <p style={{ fontSize: "12px", color: T.text3, lineHeight: "1.6", margin: 0 }}>
+                          Job market integration coming soon — connects to real-time listings from LinkedIn, Indeed, and Glassdoor to show open positions matching your profile.
+                        </p>
+                        {/* Arrow */}
+                        <div style={{
+                          position: "absolute",
+                          bottom: "-5px",
+                          left: "20px",
+                          width: "8px",
+                          height: "8px",
+                          background: T.elevated,
+                          border: `1px solid ${T.borderMid}`,
+                          borderTop: "none",
+                          borderLeft: "none",
+                          transform: "rotate(45deg)",
+                        }} />
+                      </motion.div>
+                    )}
+                  </div>
                 </div>
                 );
               })}
