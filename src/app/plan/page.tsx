@@ -130,7 +130,7 @@ export default function PlanPage() {
           zIndex: 20,
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+        <Link href="/" style={{ display: "flex", alignItems: "center", gap: "12px", textDecoration: "none" }}>
           <div
             style={{
               width: "32px",
@@ -150,7 +150,7 @@ export default function PlanPage() {
           <span style={{ fontSize: "15px", fontWeight: "600", color: T.text1 }}>
             Consensus
           </span>
-        </div>
+        </Link>
 
         <div style={{ fontSize: "13px", color: T.text2, maxWidth: "320px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
           {userGoal ? (userGoal.length > 60 ? userGoal.slice(0, 60) + "…" : userGoal) : "Marketing Manager → Product Management"}
