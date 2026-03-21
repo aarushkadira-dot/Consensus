@@ -163,40 +163,6 @@ Type definitions and mock data. The mock agent conversation, skill data, roles, 
 
 ---
 
-## Getting Started
-
-### Prerequisites
-- Node.js 18+
-- An IBM watsonx account with an API key and project ID
-
-### Environment Variables
-Create `.env.local` in the project root:
-
-```env
-WATSONX_API_KEY=your_ibm_api_key
-WATSONX_PROJECT_ID=your_watsonx_project_id
-WATSONX_URL=https://us-south.ml.cloud.ibm.com
-```
-
-### Install & Run
-
-```bash
-npm install
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000).
-
-### Usage Flow
-
-1. **Home (`/`)** — overview of the system and agent pipeline
-2. **Start (`/start`)** — enter your background and career goal
-3. **Agents (`/agents`)** — watch the 4 agents deliberate in real time
-4. **Plan (`/plan`)** — review your complete career plan
-5. **Reasoning (`/plan/reasoning`)** — full agent conversation log
-
----
-
 ## Fallback Behavior
 
 Every agent call is wrapped in a try/catch. If IBM Granite is unavailable or returns unparseable output, the agent silently falls back to realistic mock data (a client-services-to-business-analyst scenario). The `/agents` page surfaces a notice when fallback data is used. This ensures the demo never fully breaks, even without a live watsonx connection.
