@@ -178,5 +178,3 @@ Every agent call is wrapped in a try/catch. If IBM Granite is unavailable or ret
 - [Tailwind CSS](https://tailwindcss.com)
 
 ---
-
-*NCCU IBM watsonx Hackathon — 2026*
