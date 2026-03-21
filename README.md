@@ -2,7 +2,7 @@
 
 **AI-powered career planning using a multi-agent IBM watsonx pipeline.**
 
-Built for the NCCU IBM watsonx Hackathon. Consensus takes your professional background and career goal, runs them through a parallel agent pipeline powered by IBM Granite, and returns a complete plan: skill gaps, target roles, a sequenced IBM SkillsBuild learning path, and a rewritten resume and cover letter — all in one shot.
+Consensus takes your professional background and career goal, runs them through a parallel agent pipeline powered by IBM Granite, and returns a complete plan: skill gaps, target roles, a sequenced IBM SkillsBuild learning path, and a rewritten resume and cover letter — all in one shot.
 
 ---
 
